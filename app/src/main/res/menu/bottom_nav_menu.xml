@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_currencies"
+        android:icon="@drawable/ic_cash"
+        android:title="@string/title_currencies" />
+
+    <item
+        android:id="@+id/navigation_coins"
+        android:icon="@drawable/ic_goldbar"
+        android:title="@string/title_coins" />
+</menu>
