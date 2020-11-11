@@ -6,7 +6,6 @@ import com.givekesh.raters.data.source.remote.NetworkApi
 import com.givekesh.raters.data.mappers.coins.CoinsCacheMapper
 import com.givekesh.raters.data.source.local.CoinsDao
 import com.givekesh.raters.data.mappers.currencies.CurrenciesCacheMapper
-import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.data.source.local.CurrenciesDao
 import com.givekesh.raters.utils.DataState
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +21,7 @@ class MainRepository constructor(
     private val currenciesCacheMapper: CurrenciesCacheMapper,
     private val coinsCacheMapper: CoinsCacheMapper
 ) {
-    suspend fun fetchCurrencies(): Flow<DataState<List<RecyclerItemModel>>> =
+    suspend fun fetchCurrencies(): Flow<DataState> =
         flow {
             emit(DataState.Loading)
             try {
@@ -47,7 +46,7 @@ class MainRepository constructor(
             }
         }
 
-    suspend fun fetchCoins(): Flow<DataState<List<RecyclerItemModel>>> = flow {
+    suspend fun fetchCoins(): Flow<DataState> = flow {
         emit(DataState.Loading)
         try {
             val retrievedData = networkApi.fetchCoins()

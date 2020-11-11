@@ -1,7 +1,10 @@
 package com.givekesh.raters.utils
 
-sealed class DataState<out R> {
-    class Success<out T>(val data: T, val isOffline: Boolean) : DataState<T>()
-    class Failed(val exception: Exception) : DataState<Nothing>()
-    object Loading : DataState<Nothing>()
+import com.givekesh.raters.data.models.RecyclerItemModel
+
+sealed class DataState {
+    object Idle : DataState()
+    object Loading : DataState()
+    class Success(val data: List<RecyclerItemModel>, val isOffline: Boolean) : DataState()
+    class Failed(val exception: Exception) : DataState()
 }

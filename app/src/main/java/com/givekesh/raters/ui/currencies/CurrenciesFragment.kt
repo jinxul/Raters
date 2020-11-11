@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.ui.RecyclerViewAdapter
@@ -17,6 +18,8 @@ import kotlinx.android.synthetic.main.dialog_offline.*
 import kotlinx.android.synthetic.main.dialog_offline.view.*
 import kotlinx.android.synthetic.main.fragment_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.net.UnknownHostException
 
@@ -38,23 +41,31 @@ class CurrenciesFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupSwipeRefresh()
         subscribeObserver()
-        currenciesViewModel.setStateEvent(MainIntent.GetCurrencies)
+        sendIntent()
     }
 
     private fun setupSwipeRefresh() {
         swipe.setOnRefreshListener {
-            currenciesViewModel.setStateEvent(MainIntent.GetCurrencies)
-        }
+            sendIntent()        }
     }
 
     private fun subscribeObserver() {
-        currenciesViewModel.dataState.observe(viewLifecycleOwner, { dataState ->
-            when (dataState) {
-                is DataState.Loading -> showLoading()
-                is DataState.Success -> updateData(dataState.data, dataState.isOffline)
-                is DataState.Failed -> showError(dataState.exception)
+        lifecycleScope.launch {
+            currenciesViewModel.dataState.collect { dataState ->
+                when (dataState) {
+                    is DataState.Idle -> {}
+                    is DataState.Loading -> showLoading()
+                    is DataState.Success -> updateData(dataState.data, dataState.isOffline)
+                    is DataState.Failed -> showError(dataState.exception)
+                }
             }
-        })
+        }
+    }
+
+    private fun sendIntent() {
+        lifecycleScope.launch {
+            currenciesViewModel.channel.send(MainIntent.GetCurrencies)
+        }
     }
 
     private fun showLoading() {
@@ -78,7 +89,7 @@ class CurrenciesFragment : Fragment() {
         val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
         sheetView.offline_continue.setOnClickListener { bottomSheetDialog.dismiss() }
         sheetView.retry_online.setOnClickListener {
-            currenciesViewModel.setStateEvent(MainIntent.GetCurrencies)
+            sendIntent()
             bottomSheetDialog.dismiss()
         }
         bottomSheetDialog.setContentView(sheetView)
