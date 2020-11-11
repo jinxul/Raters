@@ -10,7 +10,7 @@ import com.givekesh.raters.R
 import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.ui.RecyclerViewAdapter
 import com.givekesh.raters.utils.DataState
-import com.givekesh.raters.utils.MainStateEvent
+import com.givekesh.raters.utils.MainIntent
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_offline.*
@@ -38,12 +38,12 @@ class CoinsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupSwipeRefresh()
         subscribeObserver()
-        coinsViewModel.setStateEvent(MainStateEvent.GetCoinsEvent)
+        coinsViewModel.setStateEvent(MainIntent.GetCoins)
     }
 
     private fun setupSwipeRefresh() {
         swipe.setOnRefreshListener {
-            coinsViewModel.setStateEvent(MainStateEvent.GetCoinsEvent)
+            coinsViewModel.setStateEvent(MainIntent.GetCoins)
         }
     }
 
@@ -76,7 +76,7 @@ class CoinsFragment : Fragment() {
         val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
         sheetView.offline_continue.setOnClickListener { bottomSheetDialog.dismiss() }
         sheetView.retry_online.setOnClickListener {
-            coinsViewModel.setStateEvent(MainStateEvent.GetCoinsEvent)
+            coinsViewModel.setStateEvent(MainIntent.GetCoins)
             bottomSheetDialog.dismiss()
         }
         bottomSheetDialog.setContentView(sheetView)

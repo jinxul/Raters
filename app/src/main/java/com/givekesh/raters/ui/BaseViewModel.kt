@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.data.source.MainRepository
 import com.givekesh.raters.utils.DataState
-import com.givekesh.raters.utils.MainStateEvent
+import com.givekesh.raters.utils.MainIntent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,17 +21,17 @@ open class BaseViewModel @ViewModelInject constructor(
         MutableLiveData()
     val dataState: LiveData<DataState<List<RecyclerItemModel>>> = _dataState
 
-    fun setStateEvent(mainStateEvent: MainStateEvent) {
+    fun setStateEvent(mainIntent: MainIntent) {
         viewModelScope.launch {
-            when (mainStateEvent) {
-                is MainStateEvent.GetCurrenciesEvent -> {
+            when (mainIntent) {
+                is MainIntent.GetCurrencies -> {
                     mainRepository.fetchCurrencies()
                         .onEach { dataState ->
                             _dataState.value = dataState
                         }
                         .launchIn(viewModelScope)
                 }
-                is MainStateEvent.GetCoinsEvent -> {
+                is MainIntent.GetCoins -> {
                     mainRepository.fetchCoins()
                         .onEach { dataState ->
                             _dataState.value = dataState
