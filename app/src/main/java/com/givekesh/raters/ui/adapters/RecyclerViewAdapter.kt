@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui
+package com.givekesh.raters.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

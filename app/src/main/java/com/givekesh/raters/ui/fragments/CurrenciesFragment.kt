@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui.coins
+package com.givekesh.raters.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.data.models.RecyclerItemModel
-import com.givekesh.raters.ui.RecyclerViewAdapter
+import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
+import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -18,17 +19,17 @@ import kotlinx.android.synthetic.main.dialog_offline.*
 import kotlinx.android.synthetic.main.dialog_offline.view.*
 import kotlinx.android.synthetic.main.fragment_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.net.UnknownHostException
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CoinsFragment : Fragment() {
+class CurrenciesFragment : Fragment() {
 
-    private val coinsViewModel: CoinsViewModel by viewModels()
+    private val currenciesViewModel: CurrenciesViewModel by viewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     @Inject
@@ -57,7 +58,7 @@ class CoinsFragment : Fragment() {
 
     private fun subscribeObserver() {
         lifecycleScope.launch {
-            coinsViewModel.dataState.collect { dataState ->
+            currenciesViewModel.dataState.collect { dataState ->
                 when (dataState) {
                     is DataState.Idle -> {
                     }
@@ -71,7 +72,7 @@ class CoinsFragment : Fragment() {
 
     private fun sendIntent() {
         lifecycleScope.launch {
-            coinsViewModel.channel.send(MainIntent.GetCoins)
+            currenciesViewModel.channel.send(MainIntent.GetCurrencies)
         }
     }
 
@@ -79,14 +80,15 @@ class CoinsFragment : Fragment() {
         swipe.isRefreshing = true
     }
 
-    private fun updateData(coins: List<RecyclerItemModel>, isOffline: Boolean) {
+    private fun updateData(currencies: List<RecyclerItemModel>, isOffline: Boolean) {
         list.visibility = View.VISIBLE
         list_error.visibility = View.GONE
-        adapter.updateData(coins)
-        list.adapter = adapter
+        adapter.updateData(currencies)
         swipe.isRefreshing = false
-        if (isOffline)
+        list.adapter = adapter
+        if (isOffline) {
             showOfflineDialog()
+        }
     }
 
     private fun showOfflineDialog() {

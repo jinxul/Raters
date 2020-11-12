@@ -6,13 +6,13 @@
 
     <fragment
         android:id="@+id/navigation_currencies"
-        android:name="com.givekesh.raters.ui.currencies.CurrenciesFragment"
+        android:name="com.givekesh.raters.ui.fragments.CurrenciesFragment"
         android:label="@string/title_currencies"
         tools:layout="@layout/fragment_layout" />
 
     <fragment
         android:id="@+id/navigation_coins"
-        android:name="com.givekesh.raters.ui.coins.CoinsFragment"
+        android:name="com.givekesh.raters.ui.fragments.CoinsFragment"
         android:label="@string/title_coins"
         tools:layout="@layout/fragment_layout" />
 </navigation>

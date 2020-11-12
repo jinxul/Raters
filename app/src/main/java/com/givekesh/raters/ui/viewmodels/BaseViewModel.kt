@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui
+package com.givekesh.raters.ui.viewmodels
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
