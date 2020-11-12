@@ -28,6 +28,7 @@ import java.net.UnknownHostException
 class CurrenciesFragment : Fragment() {
 
     private val currenciesViewModel: CurrenciesViewModel by viewModels()
+    private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,14 +47,16 @@ class CurrenciesFragment : Fragment() {
 
     private fun setupSwipeRefresh() {
         swipe.setOnRefreshListener {
-            sendIntent()        }
+            sendIntent()
+        }
     }
 
     private fun subscribeObserver() {
         lifecycleScope.launch {
             currenciesViewModel.dataState.collect { dataState ->
                 when (dataState) {
-                    is DataState.Idle -> {}
+                    is DataState.Idle -> {
+                    }
                     is DataState.Loading -> showLoading()
                     is DataState.Success -> updateData(dataState.data, dataState.isOffline)
                     is DataState.Failed -> showError(dataState.exception)
@@ -75,7 +78,6 @@ class CurrenciesFragment : Fragment() {
     private fun updateData(currencies: List<RecyclerItemModel>, isOffline: Boolean) {
         list.visibility = View.VISIBLE
         list_error.visibility = View.GONE
-        val adapter = RecyclerViewAdapter()
         adapter.updateData(currencies)
         swipe.isRefreshing = false
         list.adapter = adapter

@@ -29,6 +29,7 @@ class CoinsFragment : Fragment() {
 
     private val coinsViewModel: CoinsViewModel by viewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -54,7 +55,8 @@ class CoinsFragment : Fragment() {
         lifecycleScope.launch {
             coinsViewModel.dataState.collect { dataState ->
                 when (dataState) {
-                    is DataState.Idle -> {}
+                    is DataState.Idle -> {
+                    }
                     is DataState.Loading -> showLoading()
                     is DataState.Success -> updateData(dataState.data, dataState.isOffline)
                     is DataState.Failed -> showError(dataState.exception)
@@ -63,11 +65,12 @@ class CoinsFragment : Fragment() {
         }
     }
 
-    private fun sendIntent(){
-        lifecycleScope.launch{
+    private fun sendIntent() {
+        lifecycleScope.launch {
             coinsViewModel.channel.send(MainIntent.GetCoins)
         }
     }
+
     private fun showLoading() {
         swipe.isRefreshing = true
     }
