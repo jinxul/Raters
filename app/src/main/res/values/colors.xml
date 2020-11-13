@@ -10,6 +10,7 @@
 
     <color name="high">#00cd00</color>
     <color name="low">#ff0000</color>
-    <color name="divider_color">#1fffffff</color>
-    <color name="default_text">#Afffffff</color>
+
+    <color name="divider_dark">#1fffffff</color>
+    <color name="divider_light">#1f000000</color>
 </resources>

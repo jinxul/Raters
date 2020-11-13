@@ -12,7 +12,7 @@ object BindingAdapters {
         val color = when {
             indicator.contains("-") -> ContextCompat.getColor(view.context, R.color.low)
             indicator.contains("+") -> ContextCompat.getColor(view.context, R.color.high)
-            else -> ContextCompat.getColor(view.context, R.color.default_text)
+            else -> ContextCompat.getColor(view.context, android.R.color.tab_indicator_text)
         }
         view.setTextColor(color)
     }
