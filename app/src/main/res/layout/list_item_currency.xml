@@ -12,14 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/row_currency"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:paddingHorizontal="12dp"
+        android:layout_height="@dimen/list_item_size"
+        android:paddingHorizontal="@dimen/padding"
         android:paddingVertical="0dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/flag"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="@dimen/flag_size"
+            android:layout_height="@dimen/flag_size"
             android:contentDescription="@string/currency_flag"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,9 +30,9 @@
             android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/padding"
             android:text="@{currency.title}"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/flag"
             app:layout_constraintTop_toTopOf="@id/flag" />
@@ -41,9 +41,9 @@
             android:id="@+id/item_last_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/padding"
             android:text="@{currency.lastUpdate}"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/flag"
             app:layout_constraintEnd_toStartOf="@id/flag" />
 
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{currency.latestPrice}"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/flag" />
 
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{currency.priceChange}"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             app:indicator="@{currency.priceChange}"
             app:layout_constraintBottom_toBottomOf="@id/flag"
             app:layout_constraintStart_toStartOf="parent" />

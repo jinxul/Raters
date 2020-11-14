@@ -12,14 +12,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/row_coin"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:paddingHorizontal="12dp"
+        android:layout_height="@dimen/list_item_size"
+        android:paddingHorizontal="@dimen/padding"
         android:paddingVertical="0dp">
 
         <View
             android:id="@+id/guide_line"
             android:layout_width="0dp"
-            android:layout_height="36dp"
+            android:layout_height="@dimen/flag_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -28,9 +28,9 @@
             android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/padding"
             android:text="@{coin.title}"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/guide_line" />
 
@@ -38,9 +38,9 @@
             android:id="@+id/item_last_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="@dimen/padding"
             android:text="@{coin.lastUpdate}"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/guide_line"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{coin.latestPrice}"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_normal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/guide_line" />
 
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{coin.priceChange}"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small"
             app:indicator="@{coin.priceChange}"
             app:layout_constraintBottom_toBottomOf="@id/guide_line"
             app:layout_constraintStart_toStartOf="parent" />
