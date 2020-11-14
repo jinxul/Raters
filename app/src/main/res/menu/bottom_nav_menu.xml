@@ -7,6 +7,6 @@
 
     <item
         android:id="@+id/navigation_coins"
-        android:icon="@drawable/ic_goldbar"
+        android:icon="@drawable/ic_coin"
         android:title="@string/title_coins" />
 </menu>

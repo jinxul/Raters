@@ -12,16 +12,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/row_coin"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:paddingHorizontal="12dp">
+        android:layout_height="72dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="0dp">
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guide_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+        <View
+            android:id="@+id/guide_line"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -30,8 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:text="@{coin.title}"
-            app:layout_constraintBottom_toTopOf="@id/guide_list"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guide_line" />
 
         <TextView
             android:id="@+id/item_last_update"
@@ -39,25 +40,28 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:text="@{coin.lastUpdate}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guide_list" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/guide_line"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{coin.latestPrice}"
-            app:layout_constraintBottom_toTopOf="@id/guide_list"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/guide_line" />
 
         <TextView
             android:id="@+id/item_price_change"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{coin.priceChange}"
+            android:textSize="12sp"
             app:indicator="@{coin.priceChange}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guide_list" />
+            app:layout_constraintBottom_toBottomOf="@id/guide_line"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <View
             android:layout_width="match_parent"
