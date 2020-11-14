@@ -5,7 +5,7 @@
     <string name="no_internet_connection">دستگاه شما به اینترنت متصل نیست.</string>
     <string name="offline_continue">ادامه به صورت آفلاین</string>
     <string name="retry_online">برقرای ارتباط آنلاین</string>
-    <string name="currency_flag">currency_flag</string>
+    <string name="currency_flag">پرچم کشور</string>
     <string name="unexpected_error">دریافت داده ها با خطا مواجه شده است. لطفا دوباره تلاش کنید.</string>
     <string name="empty_list_error">داده ای برای نمایش دادن موجود نیست.</string>
 </resources>
