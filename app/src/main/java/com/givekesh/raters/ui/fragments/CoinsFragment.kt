@@ -14,6 +14,7 @@ import com.givekesh.raters.ui.viewmodels.CoinsViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_offline.*
 import kotlinx.android.synthetic.main.dialog_offline.view.*
@@ -30,6 +31,11 @@ class CoinsFragment : Fragment() {
 
     private val coinsViewModel: CoinsViewModel by activityViewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
