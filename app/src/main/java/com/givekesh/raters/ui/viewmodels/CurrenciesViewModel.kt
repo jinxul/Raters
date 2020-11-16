@@ -3,21 +3,25 @@ package com.givekesh.raters.ui.viewmodels
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.givekesh.raters.data.source.MainRepository
+import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class CurrenciesViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository,
     @Assisted private val savedStateHandle: SavedStateHandle,
-) : BaseViewModel(savedStateHandle) {
+) : ViewModel() {
+
+    val channel = Channel<MainIntent>(Channel.UNLIMITED)
+    private val _dataState = MutableStateFlow<DataState>(DataState.Idle)
+    val dataState: StateFlow<DataState> get() = _dataState
 
     init {
         handleIntent()
@@ -29,7 +33,7 @@ class CurrenciesViewModel @ViewModelInject constructor(
                 if (mainIntent is MainIntent.GetCurrencies) {
                     mainRepository.fetchCurrencies()
                         .onEach { dataState ->
-                            mutableDataState.value = dataState
+                            _dataState.value = dataState
                         }
                         .launchIn(viewModelScope)
                 }

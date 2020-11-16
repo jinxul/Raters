@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.data.models.RecyclerItemModel
@@ -29,7 +29,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CoinsFragment : Fragment() {
 
-    private val coinsViewModel: CoinsViewModel by viewModels()
+    private val coinsViewModel: CoinsViewModel by activityViewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     @Inject
@@ -47,11 +47,10 @@ class CoinsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupSwipeRefresh()
         subscribeObserver()
-        sendIntent()
     }
 
     private fun setupSwipeRefresh() {
-        swipe.setOnRefreshListener {
+        swipe?.setOnRefreshListener {
             sendIntent()
         }
     }
@@ -60,8 +59,7 @@ class CoinsFragment : Fragment() {
         lifecycleScope.launch {
             coinsViewModel.dataState.collect { dataState ->
                 when (dataState) {
-                    is DataState.Idle -> {
-                    }
+                    is DataState.Idle -> sendIntent()
                     is DataState.Loading -> showLoading()
                     is DataState.Success -> updateData(dataState.data, dataState.isOffline)
                     is DataState.Failed -> showError(dataState.exception)
@@ -77,15 +75,15 @@ class CoinsFragment : Fragment() {
     }
 
     private fun showLoading() {
-        swipe.isRefreshing = true
+        swipe?.isRefreshing = true
     }
 
     private fun updateData(coins: List<RecyclerItemModel>, isOffline: Boolean) {
-        list.visibility = View.VISIBLE
-        list_error.visibility = View.GONE
+        list?.visibility = View.VISIBLE
+        list_error?.visibility = View.GONE
         adapter.updateData(coins)
-        list.adapter = adapter
-        swipe.isRefreshing = false
+        list?.adapter = adapter
+        swipe?.isRefreshing = false
         if (isOffline)
             showOfflineDialog()
     }
@@ -102,14 +100,14 @@ class CoinsFragment : Fragment() {
     }
 
     private fun showError(error: Exception) {
-        list.visibility = View.GONE
-        list_error.visibility = View.VISIBLE
+        list?.visibility = View.GONE
+        list_error?.visibility = View.VISIBLE
         val errorMessage = when {
             error.message.isNullOrBlank() -> getString(R.string.unexpected_error)
             error is UnknownHostException -> getString(R.string.empty_list_error)
             else -> error.message
         }
-        list_error.text = errorMessage
-        swipe.isRefreshing = false
+        list_error?.text = errorMessage
+        swipe?.isRefreshing = false
     }
 }
