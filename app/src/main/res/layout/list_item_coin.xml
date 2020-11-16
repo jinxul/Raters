@@ -29,20 +29,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding"
-            android:text="@{coin.title}"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guide_line" />
+            app:layout_constraintTop_toTopOf="@id/guide_line"
+            app:translateTitle="@{coin.title}" />
 
         <TextView
             android:id="@+id/item_last_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding"
-            android:text="@{coin.lastUpdate}"
+            android:text='@{coin.lastUpdate.replace("Today:","")}'
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/guide_line"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/item_highest_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{coin.highestPrice}"
+            android:textSize="@dimen/text_size_small"
+            app:drawableStartCompat="@drawable/ic_arrow_drop_up"
+            app:layout_constraintBottom_toBottomOf="@id/item_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_title" />
+
+        <TextView
+            android:id="@+id/item_lowest_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{coin.lowestPrice}"
+            android:textSize="@dimen/text_size_small"
+            app:drawableStartCompat="@drawable/ic_arrow_drop_down"
+            app:layout_constraintBottom_toBottomOf="@id/item_last_update"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_last_update" />
 
         <TextView
             android:id="@+id/item_price"

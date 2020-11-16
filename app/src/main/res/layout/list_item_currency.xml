@@ -42,10 +42,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding"
-            android:text="@{currency.lastUpdate}"
+            android:text='@{currency.lastUpdate.replace("Today:", "")}'
             android:textSize="@dimen/text_size_small"
             app:layout_constraintBottom_toBottomOf="@id/flag"
             app:layout_constraintEnd_toStartOf="@id/flag" />
+
+        <TextView
+            android:id="@+id/item_highest_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{currency.highestPrice}"
+            android:textSize="@dimen/text_size_small"
+            app:drawableStartCompat="@drawable/ic_arrow_drop_up"
+            app:layout_constraintBottom_toBottomOf="@id/item_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_title" />
+
+        <TextView
+            android:id="@+id/item_lowest_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@{currency.lowestPrice}"
+            android:textSize="@dimen/text_size_small"
+            app:drawableStartCompat="@drawable/ic_arrow_drop_down"
+            app:layout_constraintBottom_toBottomOf="@id/item_last_update"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_last_update" />
 
         <TextView
             android:id="@+id/item_price"
