@@ -23,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import java.net.UnknownHostException
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -31,9 +30,6 @@ class CurrenciesFragment : Fragment() {
 
     private val currenciesViewModel: CurrenciesViewModel by activityViewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
-
-    @Inject
-    lateinit var bottomSheetDialog: BottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,6 +86,7 @@ class CurrenciesFragment : Fragment() {
     }
 
     private fun showOfflineDialog() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetTheme)
         val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
         sheetView.offline_continue.setOnClickListener { bottomSheetDialog.dismiss() }
         sheetView.retry_online.setOnClickListener {
