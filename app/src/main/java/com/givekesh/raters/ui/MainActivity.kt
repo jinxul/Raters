@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.givekesh.raters.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,15 +20,23 @@ class MainActivity : AppCompatActivity() {
                 NavHostFragment
         val navController = navHost.findNavController()
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_currencies,
-                R.id.navigation_coins
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.setupWithNavController(navController)
+        setSupportActionBar(toolbar)
+        nav_view.setOnNavigationItemReselectedListener { }
+        nav_view.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_currencies -> {
+                    navController.navigate(R.id.navigation_currencies)
+                    supportActionBar?.title = menuItem.title
+                    true
+                }
+                R.id.navigation_coins -> {
+                    navController.navigate(R.id.navigation_coins)
+                    supportActionBar?.title = menuItem.title
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }

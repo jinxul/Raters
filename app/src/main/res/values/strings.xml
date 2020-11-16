@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Raters</string>
-    <string name="title_currencies">Currencies</string>
-    <string name="title_coins">Coins</string>
+    <string name="title_currencies">ارز</string>
+    <string name="title_coins">سکه</string>
     <string name="no_internet_connection">دستگاه شما به اینترنت متصل نیست.</string>
     <string name="offline_continue">ادامه به صورت آفلاین</string>
     <string name="retry_online">برقرای ارتباط آنلاین</string>
