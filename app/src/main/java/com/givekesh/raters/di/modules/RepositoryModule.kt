@@ -1,5 +1,6 @@
 package com.givekesh.raters.di.modules
 
+import com.givekesh.raters.data.mappers.RecyclerItemMapper
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
 import com.givekesh.raters.data.source.MainRepository
@@ -26,7 +27,8 @@ object RepositoryModule {
         currenciesDao: CurrenciesDao,
         coinsDao: CoinsDao,
         currenciesCacheMapper: CurrenciesCacheMapper,
-        coinsCacheMapper: CoinsCacheMapper
+        coinsCacheMapper: CoinsCacheMapper,
+        recyclerItemMapper: RecyclerItemMapper
     ): MainRepository {
         return MainRepository(
             networkApi,
@@ -35,7 +37,8 @@ object RepositoryModule {
             currenciesDao,
             coinsDao,
             currenciesCacheMapper,
-            coinsCacheMapper
+            coinsCacheMapper,
+            recyclerItemMapper
         )
     }
 }

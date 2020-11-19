@@ -1,5 +1,6 @@
 package com.givekesh.raters.data.source
 
+import com.givekesh.raters.data.mappers.RecyclerItemMapper
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
 import com.givekesh.raters.data.source.remote.NetworkApi
@@ -19,7 +20,8 @@ class MainRepository constructor(
     private val currenciesDao: CurrenciesDao,
     private val coinsDao: CoinsDao,
     private val currenciesCacheMapper: CurrenciesCacheMapper,
-    private val coinsCacheMapper: CoinsCacheMapper
+    private val coinsCacheMapper: CoinsCacheMapper,
+    private val recyclerItemMapper: RecyclerItemMapper
 ) {
     suspend fun fetchCurrencies(): Flow<DataState> =
         flow {
@@ -29,7 +31,7 @@ class MainRepository constructor(
                 val currencies = currenciesMapper.mapFromEntityList(retrievedData.data)
                 for (currency in currencies)
                     currenciesDao.insert(currenciesCacheMapper.mapToEntity(currency))
-                val recyclerItems = currencies.map { it.toRecyclerItem() }
+                val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
                 emit(DataState.Success(data = recyclerItems, isOffline = false))
             } catch (exception: Exception) {
                 if (exception is UnknownHostException) {
@@ -39,7 +41,7 @@ class MainRepository constructor(
                         return@flow
                     }
                     val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
-                    val recyclerItems = currencies.map { it.toRecyclerItem() }
+                    val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
                     emit(DataState.Success(data = recyclerItems, isOffline = true))
                 } else
                     emit(DataState.Failed(exception))
@@ -53,7 +55,7 @@ class MainRepository constructor(
             val coins = coinsMapper.mapFromEntityList(retrievedData.data)
             for (coin in coins)
                 coinsDao.insert(coinsCacheMapper.mapToEntity(coin))
-            val recyclerItems = coins.map { it.toRecyclerItem() }
+            val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
             emit(DataState.Success(data = recyclerItems, isOffline = false))
         } catch (exception: Exception) {
             if (exception is UnknownHostException) {
@@ -63,7 +65,7 @@ class MainRepository constructor(
                     return@flow
                 }
                 val coins = coinsCacheMapper.mapFromEntityList(offlineData)
-                val recyclerItems = coins.map { it.toRecyclerItem() }
+                val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
                 emit(DataState.Success(data = recyclerItems, isOffline = true))
             } else
                 emit(DataState.Failed(exception))
