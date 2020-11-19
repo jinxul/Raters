@@ -51,7 +51,7 @@ class CurrenciesFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_refresh -> sendIntent()
+            R.id.menu_refresh -> sendIntent(MainIntent.RefreshCurrencies)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -64,7 +64,7 @@ class CurrenciesFragment : Fragment() {
 
     private fun setupSwipeRefresh() {
         swipe?.setOnRefreshListener {
-            sendIntent()
+            sendIntent(MainIntent.RefreshCurrencies)
         }
     }
 
@@ -72,8 +72,9 @@ class CurrenciesFragment : Fragment() {
         lifecycleScope.launch {
             currenciesViewModel.dataState.collect { dataState ->
                 when (dataState) {
-                    is DataState.Idle -> sendIntent()
+                    is DataState.Idle -> sendIntent(MainIntent.GetCurrencies)
                     is DataState.Loading -> showLoading()
+                    is DataState.Refreshing -> showRefreshIndicator()
                     is DataState.Success -> updateData(dataState.data, dataState.isOffline)
                     is DataState.Failed -> showError(dataState.exception)
                 }
@@ -81,19 +82,26 @@ class CurrenciesFragment : Fragment() {
         }
     }
 
-    private fun sendIntent() {
+    private fun sendIntent(intent: MainIntent) {
         lifecycleScope.launch {
-            currenciesViewModel.channel.send(MainIntent.GetCurrencies)
+            currenciesViewModel.channel.send(intent)
         }
     }
 
     private fun showLoading() {
+        loading_layout?.visibility = View.VISIBLE
+        list?.visibility = View.GONE
+        list_error?.visibility = View.GONE
+    }
+
+    private fun showRefreshIndicator() {
         swipe?.isRefreshing = true
     }
 
     private fun updateData(currencies: List<RecyclerItemModel>, isOffline: Boolean) {
         list?.visibility = View.VISIBLE
         list_error?.visibility = View.GONE
+        loading_layout?.visibility = View.GONE
         adapter.updateData(currencies)
         swipe?.isRefreshing = false
         list?.adapter = adapter
@@ -107,7 +115,7 @@ class CurrenciesFragment : Fragment() {
         val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
         sheetView.offline_continue.setOnClickListener { bottomSheetDialog.dismiss() }
         sheetView.retry_online.setOnClickListener {
-            sendIntent()
+            sendIntent(MainIntent.RefreshCurrencies)
             bottomSheetDialog.dismiss()
         }
         bottomSheetDialog.setContentView(sheetView)
@@ -116,6 +124,7 @@ class CurrenciesFragment : Fragment() {
 
     private fun showError(error: Exception) {
         list?.visibility = View.GONE
+        loading_layout?.visibility = View.GONE
         list_error?.visibility = View.VISIBLE
         val errorMessage = when {
             error.message.isNullOrBlank() -> getString(R.string.unexpected_error)

@@ -30,12 +30,16 @@ class CoinsViewModel @ViewModelInject constructor(
     private fun handleIntent() {
         viewModelScope.launch {
             channel.consumeAsFlow().collect { mainIntent ->
-                if (mainIntent is MainIntent.GetCoins) {
-                    mainRepository.fetchCoins()
-                        .onEach { dataState ->
-                            _dataState.value = dataState
-                        }
-                        .launchIn(viewModelScope)
+                when (mainIntent) {
+                    MainIntent.GetCoins ->
+                        mainRepository.fetchCoins(DataState.Loading)
+                            .onEach { _dataState.value = it }
+                            .launchIn(viewModelScope)
+                    MainIntent.RefreshCoins ->
+                        mainRepository.fetchCoins(DataState.Refreshing)
+                            .onEach { _dataState.value = it }
+                            .launchIn(viewModelScope)
+                    else -> Unit
                 }
             }
         }

@@ -9,4 +9,5 @@
     <string name="unexpected_error">دریافت داده ها با خطا مواجه شده است. لطفا دوباره تلاش کنید.</string>
     <string name="empty_list_error">داده ای برای نمایش دادن موجود نیست.</string>
     <string name="menu_refresh">دریافت مجدد</string>
+    <string name="loading">در حال دریافت داده ها...</string>
 </resources>

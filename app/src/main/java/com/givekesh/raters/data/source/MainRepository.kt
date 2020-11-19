@@ -23,9 +23,9 @@ class MainRepository constructor(
     private val coinsCacheMapper: CoinsCacheMapper,
     private val recyclerItemMapper: RecyclerItemMapper
 ) {
-    suspend fun fetchCurrencies(): Flow<DataState> =
+    suspend fun fetchCurrencies(state: DataState): Flow<DataState> =
         flow {
-            emit(DataState.Loading)
+            emit(state)
             try {
                 val retrievedData = networkApi.fetchCurrencies()
                 val currencies = currenciesMapper.mapFromEntityList(retrievedData.data)
@@ -48,8 +48,8 @@ class MainRepository constructor(
             }
         }
 
-    suspend fun fetchCoins(): Flow<DataState> = flow {
-        emit(DataState.Loading)
+    suspend fun fetchCoins(state: DataState): Flow<DataState> = flow {
+        emit(state)
         try {
             val retrievedData = networkApi.fetchCoins()
             val coins = coinsMapper.mapFromEntityList(retrievedData.data)
