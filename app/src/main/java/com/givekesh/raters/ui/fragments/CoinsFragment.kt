@@ -14,6 +14,7 @@ import com.givekesh.raters.utils.MainIntent
 import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_offline.*
 import kotlinx.android.synthetic.main.dialog_offline.view.*
@@ -128,5 +129,6 @@ class CoinsFragment : Fragment() {
         val errorMessage = Utils().getErrorMessage(requireContext(), exception)
         list_error?.text = errorMessage
         swipe?.isRefreshing = false
+        FirebaseCrashlytics.getInstance().recordException(exception)
     }
 }
