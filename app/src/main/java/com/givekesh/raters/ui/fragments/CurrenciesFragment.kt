@@ -11,6 +11,7 @@ import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
+import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
-import java.net.UnknownHostException
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -122,15 +122,11 @@ class CurrenciesFragment : Fragment() {
         bottomSheetDialog.show()
     }
 
-    private fun showError(error: Exception) {
+    private fun showError(exception: Exception) {
         list?.visibility = View.GONE
         loading_layout?.visibility = View.GONE
         list_error?.visibility = View.VISIBLE
-        val errorMessage = when {
-            error.message.isNullOrBlank() -> getString(R.string.unexpected_error)
-            error is UnknownHostException -> getString(R.string.empty_list_error)
-            else -> error.message
-        }
+        val errorMessage = Utils().getErrorMessage(requireContext(), exception)
         list_error?.text = errorMessage
         swipe?.isRefreshing = false
     }
