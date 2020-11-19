@@ -33,7 +33,7 @@ class CoinsMapper @Inject constructor() : EntityMapper<CoinsDataEntity, CoinsMod
         )
     }
 
-    fun mapFromEntityList(entities: List<CoinsDataEntity>): List<CoinsModel> {
+    override fun mapFromEntityList(entities: List<CoinsDataEntity>): List<CoinsModel> {
         return entities.map { mapFromEntity(it) }
     }
 }

@@ -45,7 +45,7 @@ class CurrenciesMapper @Inject constructor() :
         )
     }
 
-    fun mapFromEntityList(entities: List<CurrenciesDataEntity>): List<CurrenciesModel> {
+    override fun mapFromEntityList(entities: List<CurrenciesDataEntity>): List<CurrenciesModel> {
         return entities.map { mapFromEntity(it) }
     }
 }

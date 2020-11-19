@@ -29,7 +29,7 @@ class CoinsCacheMapper @Inject constructor() :
         )
     }
 
-    fun mapFromEntityList(entities: List<CoinsCacheEntity>): List<CoinsModel> {
+    override fun mapFromEntityList(entities: List<CoinsCacheEntity>): List<CoinsModel> {
         return entities.map { mapFromEntity(it) }
     }
 }
