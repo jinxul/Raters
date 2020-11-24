@@ -9,12 +9,11 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.givekesh.raters.R
+import com.givekesh.raters.databinding.ActivityMainBinding
+import com.givekesh.raters.databinding.DialogOfflineBinding
 import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.dialog_offline.*
-import kotlinx.android.synthetic.main.dialog_offline.view.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -45,10 +44,12 @@ class MainActivity : AppCompatActivity() {
         }
 
     private val utils = Utils()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
 
@@ -56,10 +57,10 @@ class MainActivity : AppCompatActivity() {
                 NavHostFragment
         val navController = navHost.findNavController()
 
-        nav_view.setupWithNavController(navController)
-        setSupportActionBar(toolbar)
-        nav_view.setOnNavigationItemReselectedListener { }
-        nav_view.setOnNavigationItemSelectedListener { menuItem ->
+        binding.navView.setupWithNavController(navController)
+        setSupportActionBar(binding.toolbar)
+        binding.navView.setOnNavigationItemReselectedListener { }
+        binding.navView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_currencies -> {
                     navController.navigate(R.id.navigation_currencies)
@@ -90,12 +91,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showOfflineDialog() {
-        val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
-        sheetView.offline_continue.setOnClickListener { bottomSheetDialog?.dismiss() }
-        sheetView.retry_online.setOnClickListener {
+//        val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
+        val sheetViewBinding = DialogOfflineBinding.inflate(layoutInflater)
+        sheetViewBinding.offlineContinue.setOnClickListener { bottomSheetDialog?.dismiss() }
+        sheetViewBinding.retryOnline.setOnClickListener {
             utils.openConnectivitySettings(this)
         }
-        bottomSheetDialog?.setContentView(sheetView)
+        bottomSheetDialog?.setContentView(sheetViewBinding.root)
         bottomSheetDialog?.show()
     }
 }

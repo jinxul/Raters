@@ -15,7 +15,7 @@ import com.givekesh.raters.utils.Utils
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_layout.*
+import com.givekesh.raters.databinding.FragmentLayoutBinding
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -27,6 +27,7 @@ class CoinsFragment : Fragment() {
 
     private val coinsViewModel: CoinsViewModel by activityViewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+    private var fragmentCoinsBinding: FragmentLayoutBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +39,10 @@ class CoinsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_layout, container, false)
+    ): View {
+        val binding = FragmentLayoutBinding.inflate(inflater, container, false)
+        fragmentCoinsBinding = binding
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -60,8 +63,13 @@ class CoinsFragment : Fragment() {
         subscribeObserver()
     }
 
+    override fun onDestroyView() {
+        fragmentCoinsBinding = null
+        super.onDestroyView()
+    }
+
     private fun setupSwipeRefresh() {
-        swipe?.setOnRefreshListener {
+        fragmentCoinsBinding?.swipe?.setOnRefreshListener {
             sendIntent(MainIntent.RefreshCoins)
         }
     }
@@ -87,31 +95,31 @@ class CoinsFragment : Fragment() {
     }
 
     private fun showLoading() {
-        loading_layout?.visibility = View.VISIBLE
-        list?.visibility = View.GONE
-        list_error?.visibility = View.GONE
+        fragmentCoinsBinding?.loadingLayout?.root?.visibility = View.VISIBLE
+        fragmentCoinsBinding?.list?.visibility = View.GONE
+        fragmentCoinsBinding?.listError?.visibility = View.GONE
     }
 
     private fun showRefreshIndicator() {
-        swipe?.isRefreshing = true
+        fragmentCoinsBinding?.swipe?.isRefreshing = true
     }
 
     private fun updateData(coins: List<RecyclerItemModel>) {
-        list?.visibility = View.VISIBLE
-        list_error?.visibility = View.GONE
-        loading_layout?.visibility = View.GONE
+        fragmentCoinsBinding?.list?.visibility = View.VISIBLE
+        fragmentCoinsBinding?.listError?.visibility = View.GONE
+        fragmentCoinsBinding?.loadingLayout?.root?.visibility = View.GONE
         adapter.updateData(coins)
-        list?.adapter = adapter
-        swipe?.isRefreshing = false
+        fragmentCoinsBinding?.list?.adapter = adapter
+        fragmentCoinsBinding?.swipe?.isRefreshing = false
     }
 
     private fun showError(exception: Exception) {
-        list?.visibility = View.GONE
-        loading_layout?.visibility = View.GONE
-        list_error?.visibility = View.VISIBLE
+        fragmentCoinsBinding?.list?.visibility = View.GONE
+        fragmentCoinsBinding?.loadingLayout?.root?.visibility = View.GONE
+        fragmentCoinsBinding?.listError?.visibility = View.VISIBLE
         val errorMessage = Utils().getErrorMessage(requireContext(), exception)
-        list_error?.text = errorMessage
-        swipe?.isRefreshing = false
+        fragmentCoinsBinding?.listError?.text = errorMessage
+        fragmentCoinsBinding?.swipe?.isRefreshing = false
         FirebaseCrashlytics.getInstance().recordException(exception)
     }
 }

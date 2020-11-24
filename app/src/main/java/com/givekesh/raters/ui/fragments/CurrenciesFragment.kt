@@ -7,6 +7,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.data.models.RecyclerItemModel
+import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
 import com.givekesh.raters.utils.DataState
@@ -15,7 +16,6 @@ import com.givekesh.raters.utils.Utils
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
@@ -27,6 +27,7 @@ class CurrenciesFragment : Fragment() {
 
     private val currenciesViewModel: CurrenciesViewModel by activityViewModels()
     private val adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+    private var fragmentCurrenciesBinding: FragmentLayoutBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +39,10 @@ class CurrenciesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_layout, container, false)
+    ): View {
+        val binding = FragmentLayoutBinding.inflate(inflater, container, false)
+        fragmentCurrenciesBinding = binding
+        return binding.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -60,8 +63,13 @@ class CurrenciesFragment : Fragment() {
         subscribeObserver()
     }
 
+    override fun onDestroyView() {
+        fragmentCurrenciesBinding = null
+        super.onDestroyView()
+    }
+
     private fun setupSwipeRefresh() {
-        swipe?.setOnRefreshListener {
+        fragmentCurrenciesBinding?.swipe?.setOnRefreshListener {
             sendIntent(MainIntent.RefreshCurrencies)
         }
     }
@@ -87,31 +95,31 @@ class CurrenciesFragment : Fragment() {
     }
 
     private fun showLoading() {
-        loading_layout?.visibility = View.VISIBLE
-        list?.visibility = View.GONE
-        list_error?.visibility = View.GONE
+        fragmentCurrenciesBinding?.loadingLayout?.root?.visibility = View.VISIBLE
+        fragmentCurrenciesBinding?.list?.visibility = View.GONE
+        fragmentCurrenciesBinding?.listError?.visibility = View.GONE
     }
 
     private fun showRefreshIndicator() {
-        swipe?.isRefreshing = true
+        fragmentCurrenciesBinding?.swipe?.isRefreshing = true
     }
 
     private fun updateData(currencies: List<RecyclerItemModel>) {
-        list?.visibility = View.VISIBLE
-        list_error?.visibility = View.GONE
-        loading_layout?.visibility = View.GONE
+        fragmentCurrenciesBinding?.list?.visibility = View.VISIBLE
+        fragmentCurrenciesBinding?.listError?.visibility = View.GONE
+        fragmentCurrenciesBinding?.loadingLayout?.root?.visibility = View.GONE
         adapter.updateData(currencies)
-        swipe?.isRefreshing = false
-        list?.adapter = adapter
+        fragmentCurrenciesBinding?.swipe?.isRefreshing = false
+        fragmentCurrenciesBinding?.list?.adapter = adapter
     }
 
     private fun showError(exception: Exception) {
-        list?.visibility = View.GONE
-        loading_layout?.visibility = View.GONE
-        list_error?.visibility = View.VISIBLE
+        fragmentCurrenciesBinding?.list?.visibility = View.GONE
+        fragmentCurrenciesBinding?.loadingLayout?.root?.visibility = View.GONE
+        fragmentCurrenciesBinding?.listError?.visibility = View.VISIBLE
         val errorMessage = Utils().getErrorMessage(requireContext(), exception)
-        list_error?.text = errorMessage
-        swipe?.isRefreshing = false
+        fragmentCurrenciesBinding?.listError?.text = errorMessage
+        fragmentCurrenciesBinding?.swipe?.isRefreshing = false
         FirebaseCrashlytics.getInstance().recordException(exception)
     }
 }
