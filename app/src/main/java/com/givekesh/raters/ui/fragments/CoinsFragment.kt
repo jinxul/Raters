@@ -12,12 +12,9 @@ import com.givekesh.raters.ui.viewmodels.CoinsViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.givekesh.raters.utils.Utils
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_offline.*
-import kotlinx.android.synthetic.main.dialog_offline.view.*
 import kotlinx.android.synthetic.main.fragment_layout.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -76,7 +73,7 @@ class CoinsFragment : Fragment() {
                     is DataState.Idle -> sendIntent(MainIntent.GetCoins)
                     is DataState.Loading -> showLoading()
                     is DataState.Refreshing -> showRefreshIndicator()
-                    is DataState.Success -> updateData(dataState.data, dataState.isOffline)
+                    is DataState.Success -> updateData(dataState.data)
                     is DataState.Failed -> showError(dataState.exception)
                 }
             }
@@ -99,27 +96,13 @@ class CoinsFragment : Fragment() {
         swipe?.isRefreshing = true
     }
 
-    private fun updateData(coins: List<RecyclerItemModel>, isOffline: Boolean) {
+    private fun updateData(coins: List<RecyclerItemModel>) {
         list?.visibility = View.VISIBLE
         list_error?.visibility = View.GONE
         loading_layout?.visibility = View.GONE
         adapter.updateData(coins)
         list?.adapter = adapter
         swipe?.isRefreshing = false
-        if (isOffline)
-            showOfflineDialog()
-    }
-
-    private fun showOfflineDialog() {
-        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetTheme)
-        val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
-        sheetView.offline_continue.setOnClickListener { bottomSheetDialog.dismiss() }
-        sheetView.retry_online.setOnClickListener {
-            sendIntent(MainIntent.RefreshCoins)
-            bottomSheetDialog.dismiss()
-        }
-        bottomSheetDialog.setContentView(sheetView)
-        bottomSheetDialog.show()
     }
 
     private fun showError(exception: Exception) {

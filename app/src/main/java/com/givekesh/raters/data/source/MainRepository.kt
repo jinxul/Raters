@@ -32,7 +32,7 @@ class MainRepository constructor(
                 for (currency in currencies)
                     currenciesDao.insert(currenciesCacheMapper.mapToEntity(currency))
                 val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
-                emit(DataState.Success(data = recyclerItems, isOffline = false))
+                emit(DataState.Success(recyclerItems))
             } catch (exception: Exception) {
                 if (exception is UnknownHostException) {
                     val offlineData = currenciesDao.get()
@@ -42,7 +42,7 @@ class MainRepository constructor(
                     }
                     val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
                     val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
-                    emit(DataState.Success(data = recyclerItems, isOffline = true))
+                    emit(DataState.Success(recyclerItems))
                 } else
                     emit(DataState.Failed(exception))
             }
@@ -56,7 +56,7 @@ class MainRepository constructor(
             for (coin in coins)
                 coinsDao.insert(coinsCacheMapper.mapToEntity(coin))
             val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
-            emit(DataState.Success(data = recyclerItems, isOffline = false))
+            emit(DataState.Success(recyclerItems))
         } catch (exception: Exception) {
             if (exception is UnknownHostException) {
                 val offlineData = coinsDao.get()
@@ -66,7 +66,7 @@ class MainRepository constructor(
                 }
                 val coins = coinsCacheMapper.mapFromEntityList(offlineData)
                 val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
-                emit(DataState.Success(data = recyclerItems, isOffline = true))
+                emit(DataState.Success(recyclerItems))
             } else
                 emit(DataState.Failed(exception))
         }
