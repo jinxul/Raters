@@ -29,10 +29,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/padding"
+            android:text="@{coin.title}"
             android:textSize="@dimen/text_size_normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/guide_line"
-            app:translateTitle="@{coin.title}" />
+            app:layout_constraintTop_toTopOf="@id/guide_line" />
 
         <TextView
             android:id="@+id/item_last_update"

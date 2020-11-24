@@ -28,18 +28,4 @@ object BindingAdapters {
         view.setImageResource(drawableRes)
         values.recycle()
     }
-
-    @BindingAdapter("translateTitle")
-    @JvmStatic
-    fun setText(view: TextView, title: String) {
-        val translatedTitle: String = when (title) {
-            "New Coin" -> "سکه امامی"
-            "Old Coin" -> "سکه بهار آزادی"
-            "Coin / Half" -> "نیم سکه"
-            "Coin / Quarter" -> "ربع سکه"
-            "Coin / Gram" -> "سکه گرمی"
-            else -> title
-        }
-        view.text = translatedTitle
-    }
 }
