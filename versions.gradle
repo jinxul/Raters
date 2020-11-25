@@ -1,0 +1,104 @@
+ext.deps = [:]
+def versions = [:]
+versions.core_ktx = '1.3.2'
+versions.appcompat = '1.2.0'
+versions.material = '1.2.1'
+versions.constraintlayout = '2.0.4'
+versions.navigation_ktx = '2.3.1'
+versions.swiperefreshlayout = '1.1.0'
+versions.junit = '4.13.1'
+versions.ext_junit = '1.1.2'
+versions.espresso_core = '3.3.0'
+versions.hilt = '2.30.1-alpha'
+versions.hilt_viewModel = '1.0.0-alpha02'
+versions.retrofit = '2.9.0'
+versions.room = '2.3.0-alpha03'
+versions.coroutines = '1.4.1'
+versions.firebase_bom = '26.1.0'
+versions.gradle = '4.1.1'
+versions.kotlin = '1.4.20'
+versions.google_service = '4.3.4'
+versions.firebase_crashlytics = '2.4.1'
+versions.firebase_perf = '1.3.4'
+ext.versions = versions
+
+def build_versions = [:]
+build_versions.min_sdk = 21
+build_versions.compile_sdk = 30
+build_versions.target_sdk = 30
+build_versions.build_tools = "30.0.2"
+ext.build_versions = build_versions
+
+def deps = [:]
+
+def kotlin = [:]
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+deps.kotlin = kotlin
+
+def navigation = [:]
+navigation.fragment_ktx = "androidx.navigation:navigation-fragment-ktx:$versions.navigation_ktx"
+navigation.ui_ktx = "androidx.navigation:navigation-ui-ktx:$versions.navigation_ktx"
+deps.navigation = navigation
+
+def hilt = [:]
+hilt.android = "com.google.dagger:hilt-android:$versions.hilt"
+hilt.android_plugin = "com.google.dagger:hilt-android-gradle-plugin:$versions.hilt"
+hilt.android_compiler = "com.google.dagger:hilt-android-compiler:$versions.hilt"
+hilt.viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$versions.hilt_viewModel"
+hilt.compiler = "androidx.hilt:hilt-compiler:$versions.hilt_viewModel"
+deps.hilt = hilt
+
+def retrofit = [:]
+retrofit.runtime = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+deps.retrofit = retrofit
+
+def room = [:]
+room.runtime = "androidx.room:room-runtime:$versions.room"
+room.ktx = "androidx.room:room-ktx:$versions.room"
+room.compiler = "androidx.room:room-compiler:$versions.room"
+deps.room = room
+
+def coroutines = [:]
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+deps.coroutines = coroutines
+
+def firebase = [:]
+firebase.bom = "com.google.firebase:firebase-bom:$versions.firebase_bom"
+firebase.crashlytics_ktx = 'com.google.firebase:firebase-crashlytics-ktx'
+firebase.analytics_ktx = 'com.google.firebase:firebase-analytics-ktx'
+firebase.perf_ktx = 'com.google.firebase:firebase-perf-ktx'
+firebase.crashlytics_gradle = "com.google.firebase:firebase-crashlytics-gradle:$versions.firebase_crashlytics"
+firebase.perf_plugin = "com.google.firebase:perf-plugin:$versions.firebase_perf"
+deps.firebase = firebase
+
+deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+
+deps.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
+
+deps.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+
+deps.swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
+
+deps.junit = "junit:junit:$versions.junit"
+
+deps.ext_junit = "androidx.test.ext:junit:$versions.ext_junit"
+
+deps.espresso = "androidx.test.espresso:espresso-core:$versions.espresso_core"
+
+deps.material = "com.google.android.material:material:$versions.material"
+
+deps.android_gradle = "com.android.tools.build:gradle:$versions.gradle"
+
+deps.google_service = "com.google.gms:google-services:$versions.google_service"
+
+ext.deps = deps
+
+static def addRepos(RepositoryHandler handler) {
+    handler.google()
+    handler.jcenter()
+}
+
+ext.addRepos = this.&addRepos
