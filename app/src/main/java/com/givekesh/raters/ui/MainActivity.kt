@@ -53,6 +53,23 @@ class MainActivity : AppCompatActivity() {
 
         bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
 
+        setupNavigation()
+
+        connectivityManager.registerNetworkCallback(networkRequest, networkCallBack)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(networkCallBack)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!utils.isNetworkAvailable(connectivityManager))
+            showOfflineDialog()
+    }
+
+    private fun setupNavigation() {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as
                 NavHostFragment
         val navController = navHost.findNavController()
@@ -75,23 +92,14 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-        connectivityManager.registerNetworkCallback(networkRequest, networkCallBack)
+        navController.addOnDestinationChangedListener { controller, destination, _ ->
+            val currentBackStack = controller.currentBackStackEntry
+            if (currentBackStack?.destination == destination)
+                controller.popBackStack(destination.id, true)
+        }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        connectivityManager.unregisterNetworkCallback(networkCallBack)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!utils.isNetworkAvailable(connectivityManager))
-            showOfflineDialog()
-    }
-
-    fun showOfflineDialog() {
-//        val sheetView = layoutInflater.inflate(R.layout.dialog_offline, bottom_sheet)
+    private fun showOfflineDialog() {
         val sheetViewBinding = DialogOfflineBinding.inflate(layoutInflater)
         sheetViewBinding.offlineContinue.setOnClickListener { bottomSheetDialog?.dismiss() }
         sheetViewBinding.retryOnline.setOnClickListener {
