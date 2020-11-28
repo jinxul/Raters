@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         connectivityManager.unregisterNetworkCallback(networkCallBack)
+        bottomSheetDialog?.dismiss()
     }
 
     override fun onResume() {
