@@ -39,7 +39,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showError(exception: Exception) {
-        val errorMessage = Utils().getErrorMessage(requireContext(), exception)
+        val errorMessage = Utils(requireContext()).getErrorMessage(exception)
         FirebaseCrashlytics.getInstance().recordException(exception)
         fragmentBinding?.list?.visibility = View.GONE
         fragmentBinding?.loadingLayout?.root?.visibility = View.GONE

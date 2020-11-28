@@ -272,4 +272,9 @@
         <item>@drawable/ic_flag_sao_tome_and_principe</item>
     </string-array>
 
+    <string-array name="theme">
+        <item>@string/theme_light</item>
+        <item>@string/theme_dark</item>
+        <item>@string/theme_system</item>
+    </string-array>
 </resources>

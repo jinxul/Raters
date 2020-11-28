@@ -43,12 +43,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private val utils = Utils()
+    private lateinit var utils: Utils
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        utils = Utils(this)
+
         setContentView(binding.root)
 
         bottomSheetDialog = BottomSheetDialog(this, R.style.BottomSheetTheme)
@@ -103,7 +105,7 @@ class MainActivity : AppCompatActivity() {
         val sheetViewBinding = DialogOfflineBinding.inflate(layoutInflater)
         sheetViewBinding.offlineContinue.setOnClickListener { bottomSheetDialog?.dismiss() }
         sheetViewBinding.retryOnline.setOnClickListener {
-            utils.openConnectivitySettings(this)
+            utils.openConnectivitySettings()
         }
         bottomSheetDialog?.setContentView(sheetViewBinding.root)
         bottomSheetDialog?.show()

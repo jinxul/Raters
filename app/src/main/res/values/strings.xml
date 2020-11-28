@@ -9,5 +9,11 @@
     <string name="unexpected_error">دریافت داده ها با خطا مواجه شده است. لطفا دوباره تلاش کنید.</string>
     <string name="empty_list_error">داده ای برای نمایش دادن موجود نیست.</string>
     <string name="menu_refresh">دریافت مجدد</string>
-    <string name="loading">در حال دریافت داده ها...</string>
+    <string name="loading">در حال دریافت داده ها…</string>
+    <string name="choose_theme_title">انتخاب تم</string>
+    <string name="theme_light">تم روشن</string>
+    <string name="theme_dark">تم تاریک</string>
+    <string name="theme_system">تم سیستم</string>
+    <string name="confirm">تایید</string>
+    <string name="cancel">لغو</string>
 </resources>
