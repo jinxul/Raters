@@ -102,6 +102,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showOfflineDialog() {
+        if (bottomSheetDialog?.isShowing == true)
+            return
         val sheetViewBinding = DialogOfflineBinding.inflate(layoutInflater)
         sheetViewBinding.offlineContinue.setOnClickListener { bottomSheetDialog?.dismiss() }
         sheetViewBinding.retryOnline.setOnClickListener {
