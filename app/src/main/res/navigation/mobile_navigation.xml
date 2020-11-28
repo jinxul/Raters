@@ -8,11 +8,21 @@
         android:id="@+id/navigation_currencies"
         android:name="com.givekesh.raters.ui.fragments.CurrenciesFragment"
         android:label="@string/title_currencies"
-        tools:layout="@layout/fragment_layout" />
+        tools:layout="@layout/fragment_layout">
+        <action
+            android:id="@+id/action_currencies_to_coins"
+            app:destination="@id/navigation_coins"
+            app:launchSingleTop="true" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_coins"
         android:name="com.givekesh.raters.ui.fragments.CoinsFragment"
         android:label="@string/title_coins"
-        tools:layout="@layout/fragment_layout" />
+        tools:layout="@layout/fragment_layout">
+        <action
+            android:id="@+id/action_coins_to_currencies"
+            app:destination="@id/navigation_currencies"
+            app:launchSingleTop="true" />
+    </fragment>
 </navigation>

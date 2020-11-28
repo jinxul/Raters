@@ -5,6 +5,7 @@ import android.net.Network
 import android.net.NetworkRequest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var utils: Utils
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,12 +71,13 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (!utils.isNetworkAvailable(connectivityManager))
             showOfflineDialog()
+        supportActionBar?.title = navController.currentDestination?.label
     }
 
     private fun setupNavigation() {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as
                 NavHostFragment
-        val navController = navHost.findNavController()
+        navController = navHost.findNavController()
 
         binding.navView.setupWithNavController(navController)
         setSupportActionBar(binding.toolbar)
@@ -82,22 +85,19 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_currencies -> {
-                    navController.navigate(R.id.navigation_currencies)
+                    if (!navController.navigateUp())
+                        navController.navigate(R.id.action_coins_to_currencies)
                     supportActionBar?.title = menuItem.title
                     true
                 }
                 R.id.navigation_coins -> {
-                    navController.navigate(R.id.navigation_coins)
+                    if (!navController.navigateUp())
+                        navController.navigate(R.id.action_currencies_to_coins)
                     supportActionBar?.title = menuItem.title
                     true
                 }
                 else -> false
             }
-        }
-        navController.addOnDestinationChangedListener { controller, destination, _ ->
-            val currentBackStack = controller.currentBackStackEntry
-            if (currentBackStack?.destination == destination)
-                controller.popBackStack(destination.id, true)
         }
     }
 
