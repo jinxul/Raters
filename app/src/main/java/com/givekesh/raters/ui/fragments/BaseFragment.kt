@@ -21,8 +21,7 @@ abstract class BaseFragment : Fragment() {
 
     protected fun showLoading() {
         fragmentBinding?.loadingLayout?.root?.visibility = View.VISIBLE
-        fragmentBinding?.list?.visibility = View.GONE
-        fragmentBinding?.listError?.visibility = View.GONE
+        fragmentBinding?.swipe?.visibility = View.GONE
     }
 
     protected fun showRefreshIndicator() {
@@ -30,6 +29,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun updateData(coins: List<RecyclerItemModel>) {
+        fragmentBinding?.swipe?.visibility = View.VISIBLE
         fragmentBinding?.list?.visibility = View.VISIBLE
         fragmentBinding?.listError?.visibility = View.GONE
         fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
@@ -41,6 +41,7 @@ abstract class BaseFragment : Fragment() {
     protected fun showError(exception: Exception) {
         val errorMessage = Utils(requireContext()).getErrorMessage(exception)
         FirebaseCrashlytics.getInstance().recordException(exception)
+        fragmentBinding?.swipe?.visibility = View.VISIBLE
         fragmentBinding?.list?.visibility = View.GONE
         fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
         fragmentBinding?.listError?.visibility = View.VISIBLE
