@@ -12,7 +12,7 @@ import com.givekesh.raters.utils.MainIntent
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import com.givekesh.raters.databinding.FragmentLayoutBinding
-import com.givekesh.raters.utils.Utils
+import com.givekesh.raters.ui.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ class CoinsFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_refresh -> sendIntent(MainIntent.RefreshCoins)
-            R.id.menu_choose_theme -> Utils(requireContext()).showThemeMenu()
+            R.id.menu_choose_theme -> (activity as MainActivity).utils.showThemeMenu()
         }
         return super.onOptionsItemSelected(item)
     }

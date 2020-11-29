@@ -4,8 +4,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.databinding.FragmentLayoutBinding
+import com.givekesh.raters.ui.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
-import com.givekesh.raters.utils.Utils
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.lang.Exception
 
@@ -39,7 +39,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showError(exception: Exception) {
-        val errorMessage = Utils(requireContext()).getErrorMessage(exception)
+        val errorMessage = (activity as MainActivity).utils.getErrorMessage(exception)
         FirebaseCrashlytics.getInstance().recordException(exception)
         fragmentBinding?.swipe?.visibility = View.VISIBLE
         fragmentBinding?.list?.visibility = View.GONE

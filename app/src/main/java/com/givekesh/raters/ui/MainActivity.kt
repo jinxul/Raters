@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    private lateinit var utils: Utils
+    lateinit var utils: Utils
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

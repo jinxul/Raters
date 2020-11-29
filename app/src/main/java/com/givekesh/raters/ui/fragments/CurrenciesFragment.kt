@@ -6,11 +6,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.databinding.FragmentLayoutBinding
+import com.givekesh.raters.ui.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
-import com.givekesh.raters.utils.Utils
 import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -50,7 +50,7 @@ class CurrenciesFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_refresh -> sendIntent(MainIntent.RefreshCurrencies)
-            R.id.menu_choose_theme -> Utils(requireContext()).showThemeMenu()
+            R.id.menu_choose_theme -> (activity as MainActivity).utils.showThemeMenu()
         }
         return super.onOptionsItemSelected(item)
     }
