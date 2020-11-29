@@ -1,33 +1,31 @@
 package com.givekesh.raters.utils
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.provider.Settings
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.fragment.app.FragmentActivity
 import com.givekesh.raters.R
+import com.givekesh.raters.ui.MainActivity
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-class Utils(private val context: Context) {
-
-    private val sharedPreferences = context.getSharedPreferences("settings", MODE_PRIVATE)
+class Utils(private val activity: FragmentActivity) {
 
     fun getErrorMessage(exception: Exception): String {
         return when (exception) {
-            is UnknownHostException -> context.getString(R.string.empty_list_error)
-            is SocketTimeoutException -> context.getString(R.string.empty_list_error)
-            else -> context.getString(R.string.unexpected_error)
+            is UnknownHostException -> activity.getString(R.string.empty_list_error)
+            is SocketTimeoutException -> activity.getString(R.string.empty_list_error)
+            else -> activity.getString(R.string.unexpected_error)
         }
     }
 
 
     fun openConnectivitySettings() {
         val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)
-        context.startActivity(intent)
+        activity.startActivity(intent)
     }
 
     fun isNetworkAvailable(connectivityManager: ConnectivityManager): Boolean {
@@ -41,10 +39,10 @@ class Utils(private val context: Context) {
     }
 
     fun showThemeMenu() {
-        var nightMode = getNightMode()
+        var nightMode = (activity as MainActivity).preferenceRepository.nightMode
         val checkedItem = getCheckedItem(nightMode)
 
-        AlertDialog.Builder(context)
+        AlertDialog.Builder(activity)
             .setTitle(R.string.choose_theme_title)
             .setSingleChoiceItems(R.array.theme, checkedItem) { _, item ->
                 nightMode = when (item) {
@@ -54,22 +52,13 @@ class Utils(private val context: Context) {
                 }
             }
             .setPositiveButton(R.string.confirm) { dialog, _ ->
-                sharedPreferences.edit().putInt("nightMode", nightMode).apply()
-                setTheme()
+                activity.preferenceRepository.nightMode = nightMode
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
-    }
-
-    fun setTheme() {
-        AppCompatDelegate.setDefaultNightMode(getNightMode())
-    }
-
-    private fun getNightMode(): Int {
-        return sharedPreferences.getInt("nightMode", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 
     private fun getCheckedItem(nightMode: Int): Int {
