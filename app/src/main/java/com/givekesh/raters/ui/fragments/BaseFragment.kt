@@ -1,5 +1,6 @@
 package com.givekesh.raters.ui.fragments
 
+import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.givekesh.raters.data.models.RecyclerItemModel
@@ -13,6 +14,11 @@ abstract class BaseFragment : Fragment() {
 
     abstract var fragmentBinding: FragmentLayoutBinding?
     abstract var adapter: RecyclerViewAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onDestroyView() {
         fragmentBinding = null

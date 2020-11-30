@@ -9,7 +9,6 @@ import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.ui.viewmodels.CoinsViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
-import com.google.android.material.transition.MaterialFadeThrough
 import dagger.hilt.android.AndroidEntryPoint
 import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.MainActivity
@@ -25,12 +24,6 @@ class CoinsFragment : BaseFragment() {
 
     override var fragmentBinding: FragmentLayoutBinding? = null
     override var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        setHasOptionsMenu(true)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
