@@ -16,4 +16,5 @@
     <string name="theme_system">تم سیستم</string>
     <string name="confirm">تایید</string>
     <string name="cancel">لغو</string>
+    <string name="drag_handle">دسته کشویی</string>
 </resources>

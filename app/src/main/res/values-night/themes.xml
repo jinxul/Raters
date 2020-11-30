@@ -14,5 +14,6 @@
         <!-- Customize your theme here. -->
         <item name="colorDivider">@color/divider_dark</item>
         <item name="colorBackground">@color/background_dark</item>
+        <item name="android:background">@null</item>
     </style>
 </resources>

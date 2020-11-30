@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="colorDivider">@color/divider_light</item>
         <item name="colorBackground">@color/white</item>
+        <item name="android:background">@null</item>
     </style>
 
     <style name="BottomSheetTheme" parent="Theme.Design.BottomSheetDialog">
