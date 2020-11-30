@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import com.givekesh.raters.R
 import com.givekesh.raters.ui.MainActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
+@ExperimentalCoroutinesApi
 class Utils(private val activity: FragmentActivity) {
 
     fun getErrorMessage(exception: Exception): String {
@@ -39,7 +41,7 @@ class Utils(private val activity: FragmentActivity) {
     }
 
     fun showThemeMenu() {
-        var nightMode = (activity as MainActivity).preferenceRepository.nightMode
+        var nightMode = (activity as MainActivity).getNightMode()
         val checkedItem = getCheckedItem(nightMode)
 
         AlertDialog.Builder(activity)
@@ -52,7 +54,7 @@ class Utils(private val activity: FragmentActivity) {
                 }
             }
             .setPositiveButton(R.string.confirm) { dialog, _ ->
-                activity.preferenceRepository.nightMode = nightMode
+                activity.setNightMode(nightMode)
                 dialog.dismiss()
             }
             .setNegativeButton(R.string.cancel) { dialog, _ ->

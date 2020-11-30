@@ -4,7 +4,9 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -13,11 +15,16 @@ import com.givekesh.raters.R
 import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.databinding.ActivityMainBinding
 import com.givekesh.raters.databinding.DialogOfflineBinding
+import com.givekesh.raters.ui.viewmodels.MainActivityViewModel
 import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var utils: Utils
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         connectivityManager.registerNetworkCallback(networkRequest, networkCallBack)
 
-        preferenceRepository.nightModeLive
-            .observe(this) { nightMode ->
-                nightMode?.let { delegate.localNightMode = it }
-            }
+        subscribeObserver()
     }
 
     override fun onDestroy() {
@@ -109,6 +114,22 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+    }
+
+    private fun subscribeObserver() {
+        lifecycleScope.launch {
+            viewModel.nightModeLive.collect {
+                delegate.localNightMode = it
+            }
+        }
+    }
+
+    fun getNightMode(): Int {
+        return viewModel.nightModeLive.value
+    }
+
+    fun setNightMode(nightMode: Int) {
+        viewModel.setNightMode(nightMode)
     }
 
     private fun showOfflineDialog() {

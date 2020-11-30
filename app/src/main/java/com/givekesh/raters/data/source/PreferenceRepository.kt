@@ -1,40 +1,50 @@
 package com.givekesh.raters.data.source
 
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.givekesh.raters.utils.Constant
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 
-class PreferenceRepository(private val sharedPreferences: SharedPreferences) {
+@ExperimentalCoroutinesApi
+class PreferenceRepository(val sharedPreferences: SharedPreferences) {
 
-    var nightMode: Int = Constant.PREFERENCE_NIGHT_MODE_DEFAULT
-        get() = sharedPreferences.getInt(
-            Constant.PREFERENCE_NIGHT_MODE_KEY,
-            Constant.PREFERENCE_NIGHT_MODE_DEFAULT
-        )
-        set(value) {
-            sharedPreferences.edit()
-                .putInt(Constant.PREFERENCE_NIGHT_MODE_KEY, value)
-                .apply()
-            field = value
-        }
+    inline fun <reified T> observeKey(
+        key: String,
+        default: T
+    ): Flow<T> = channelFlow {
+        offer(getItem(key, default))
 
-    private val _nightModeLive: MutableLiveData<Int> = MutableLiveData()
-    val nightModeLive: LiveData<Int>
-        get() = _nightModeLive
-
-    private val preferenceChangedListener =
-        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-            when (key) {
-                Constant.PREFERENCE_NIGHT_MODE_KEY ->
-                    _nightModeLive.value = nightMode
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, k ->
+            if (key == k) {
+                offer(getItem(key, default)!!)
             }
         }
 
-    init {
-        _nightModeLive.value = nightMode
-        sharedPreferences.registerOnSharedPreferenceChangeListener(
-            preferenceChangedListener
-        )
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+        awaitClose { sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener) }
+    }
+
+    inline fun <reified T> getItem(key: String, default: T): T {
+        @Suppress("UNCHECKED_CAST")
+        return when (default) {
+            is String -> sharedPreferences.getString(key, default) as T
+            is Int -> sharedPreferences.getInt(key, default) as T
+            is Long -> sharedPreferences.getLong(key, default) as T
+            is Boolean -> sharedPreferences.getBoolean(key, default) as T
+            is Float -> sharedPreferences.getFloat(key, default) as T
+            else -> throw IllegalArgumentException("generic type not handle ${T::class.java.name}")
+        }
+    }
+
+    inline fun <reified T> setValue(key: String, value: T) {
+        when (value) {
+            is String -> sharedPreferences.edit().putString(key, value).apply()
+            is Int -> sharedPreferences.edit().putInt(key, value).apply()
+            is Long -> sharedPreferences.edit().putLong(key, value).apply()
+            is Boolean -> sharedPreferences.edit().putBoolean(key, value).apply()
+            is Float -> sharedPreferences.edit().putFloat(key, value).apply()
+            else -> throw IllegalArgumentException("generic type not handle ${T::class.java.name}")
+        }
     }
 }
