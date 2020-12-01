@@ -170,14 +170,14 @@
         <item>@drawable/ic_flag_malaysia</item>
         <item>@drawable/ic_flag_thailand</item>
         <item>@drawable/ic_flag_albania</item>
-        <item>@drawable/ic_flag_bosnia_and_herzegovina</item>
+        <item>BA</item>
         <item>@drawable/ic_flag_barbados</item>
         <item>@drawable/ic_flag_bangladesh</item>
         <item>@drawable/ic_flag_bulgaria</item>
         <item>@drawable/ic_flag_burundi</item>
         <item>BN</item>
         <item>@drawable/ic_flag_bahamas</item>
-        <item>@drawable/ic_flag_bhutan</item>
+        <item>BT</item>
         <item>@drawable/ic_flag_botswana</item>
         <item>@drawable/ic_flag_belarus</item>
         <item>BZ</item>
@@ -223,7 +223,7 @@
         <item>@drawable/ic_flag_nigeria</item>
         <item>@drawable/ic_flag_nepal</item>
         <item>@drawable/ic_flag_panama</item>
-        <item>@drawable/ic_flag_papua_new_guinea</item>
+        <item>PG</item>
         <item>@drawable/ic_flag_philippines</item>
         <item>@drawable/ic_flag_romania</item>
         <item>@drawable/ic_flag_serbia</item>
