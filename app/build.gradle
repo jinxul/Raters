@@ -75,4 +75,7 @@ dependencies {
     implementation deps.firebase.crashlytics_ktx
     implementation deps.firebase.analytics_ktx
     implementation deps.firebase.perf_ktx
+
+    implementation deps.glide.runtime
+    kapt deps.glide.compiler
 }
