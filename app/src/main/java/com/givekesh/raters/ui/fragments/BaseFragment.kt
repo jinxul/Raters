@@ -8,8 +8,10 @@ import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.lang.Exception
 
+@ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment() {
 
     abstract var fragmentBinding: FragmentLayoutBinding?
@@ -37,7 +39,7 @@ abstract class BaseFragment : Fragment() {
     protected fun updateData(coins: List<RecyclerItemModel>) {
         fragmentBinding?.swipe?.visibility = View.VISIBLE
         fragmentBinding?.list?.visibility = View.VISIBLE
-        fragmentBinding?.listError?.visibility = View.GONE
+        fragmentBinding?.errorLayout?.visibility = View.GONE
         fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
         fragmentBinding?.list?.adapter = adapter
         fragmentBinding?.swipe?.isRefreshing = false
@@ -50,7 +52,7 @@ abstract class BaseFragment : Fragment() {
         fragmentBinding?.swipe?.visibility = View.VISIBLE
         fragmentBinding?.list?.visibility = View.GONE
         fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
-        fragmentBinding?.listError?.visibility = View.VISIBLE
+        fragmentBinding?.errorLayout?.visibility = View.VISIBLE
         fragmentBinding?.listError?.text = errorMessage
         fragmentBinding?.swipe?.isRefreshing = false
     }

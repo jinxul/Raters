@@ -52,6 +52,9 @@ class CoinsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         setupSwipeRefresh()
         subscribeObserver()
+        fragmentBinding?.refresh?.setOnClickListener {
+            sendIntent(MainIntent.GetCoins)
+        }
     }
 
     override fun onDestroyView() {
