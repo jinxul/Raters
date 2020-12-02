@@ -52,6 +52,9 @@ class CoinsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         setupSwipeRefresh()
         subscribeObserver()
+        (activity as MainActivity).registerNetworkListener {
+            sendIntent(MainIntent.RefreshCoins)
+        }
         fragmentBinding?.refresh?.setOnClickListener {
             sendIntent(MainIntent.GetCoins)
         }

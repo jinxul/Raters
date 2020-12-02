@@ -16,6 +16,7 @@ import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.databinding.ActivityMainBinding
 import com.givekesh.raters.databinding.DialogOfflineBinding
 import com.givekesh.raters.ui.viewmodels.MainActivityViewModel
+import com.givekesh.raters.utils.NetworkListener
 import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (bottomSheetDialog?.isShowing == true)
                         bottomSheetDialog?.dismiss()
+                    if (shouldRefresh)
+                        networkListener?.onNetworkAvailable()
                 }
             }
 
@@ -59,6 +62,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private val viewModel: MainActivityViewModel by viewModels()
+    private var networkListener: NetworkListener? = null
+    private var shouldRefresh = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -133,6 +138,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showOfflineDialog() {
+        shouldRefresh = true
         if (bottomSheetDialog?.isShowing == true)
             return
         val sheetViewBinding = DialogOfflineBinding.inflate(layoutInflater)
@@ -142,5 +148,9 @@ class MainActivity : AppCompatActivity() {
         }
         bottomSheetDialog?.setContentView(sheetViewBinding.root)
         bottomSheetDialog?.show()
+    }
+
+    fun registerNetworkListener(networkListener: NetworkListener) {
+        this.networkListener = networkListener
     }
 }
