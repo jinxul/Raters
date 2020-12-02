@@ -12,7 +12,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.givekesh.raters.R
-import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.databinding.ActivityMainBinding
 import com.givekesh.raters.databinding.DialogOfflineBinding
 import com.givekesh.raters.ui.viewmodels.MainActivityViewModel
@@ -34,9 +33,6 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var networkRequest: NetworkRequest
-
-    @Inject
-    lateinit var preferenceRepository: PreferenceRepository
 
     private var bottomSheetDialog: BottomSheetDialog? = null
 
