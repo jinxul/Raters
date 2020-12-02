@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import com.givekesh.raters.R
-import com.givekesh.raters.ui.MainActivity
+import com.givekesh.raters.ui.activities.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException

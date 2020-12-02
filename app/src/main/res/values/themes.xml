@@ -25,4 +25,8 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="behavior_peekHeight">512dp</item>
     </style>
+
+    <style name="SplashScreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_activity_background</item>
+    </style>
 </resources>

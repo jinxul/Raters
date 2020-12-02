@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui
+package com.givekesh.raters.ui.activities
 
 import android.net.ConnectivityManager
 import android.net.Network

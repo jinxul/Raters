@@ -11,7 +11,7 @@ import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import dagger.hilt.android.AndroidEntryPoint
 import com.givekesh.raters.databinding.FragmentLayoutBinding
-import com.givekesh.raters.ui.MainActivity
+import com.givekesh.raters.ui.activities.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
