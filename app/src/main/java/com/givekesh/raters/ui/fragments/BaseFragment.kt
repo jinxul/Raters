@@ -28,32 +28,38 @@ abstract class BaseFragment : Fragment() {
     }
 
     protected fun showLoading() {
-        fragmentBinding?.loadingLayout?.root?.visibility = View.VISIBLE
-        fragmentBinding?.swipe?.visibility = View.GONE
+        fragmentBinding?.apply {
+            loadingLayout.root.visibility = View.VISIBLE
+            swipe.visibility = View.GONE
+        }
     }
 
     protected fun showRefreshIndicator() {
         fragmentBinding?.swipe?.isRefreshing = true
     }
 
-    protected fun updateData(coins: List<RecyclerItemModel>) {
-        fragmentBinding?.swipe?.visibility = View.VISIBLE
-        fragmentBinding?.list?.visibility = View.VISIBLE
-        fragmentBinding?.errorLayout?.visibility = View.GONE
-        fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
-        fragmentBinding?.list?.adapter = adapter
-        fragmentBinding?.swipe?.isRefreshing = false
-        adapter.updateData(coins)
+    protected fun updateData(data: List<RecyclerItemModel>) {
+        fragmentBinding?.apply {
+            swipe.visibility = View.VISIBLE
+            list.visibility = View.VISIBLE
+            errorLayout.visibility = View.GONE
+            loadingLayout.root.visibility = View.GONE
+            list.adapter = adapter
+            swipe.isRefreshing = false
+        }
+        adapter.updateData(data)
     }
 
     protected fun showError(exception: Exception) {
         val errorMessage = (activity as MainActivity).utils.getErrorMessage(exception)
         FirebaseCrashlytics.getInstance().recordException(exception)
-        fragmentBinding?.swipe?.visibility = View.VISIBLE
-        fragmentBinding?.list?.visibility = View.GONE
-        fragmentBinding?.loadingLayout?.root?.visibility = View.GONE
-        fragmentBinding?.errorLayout?.visibility = View.VISIBLE
-        fragmentBinding?.listError?.text = errorMessage
-        fragmentBinding?.swipe?.isRefreshing = false
+        fragmentBinding?.apply {
+            swipe.visibility = View.VISIBLE
+            list.visibility = View.GONE
+            loadingLayout.root.visibility = View.GONE
+            errorLayout.visibility = View.VISIBLE
+            listError.text = errorMessage
+            swipe.isRefreshing = false
+        }
     }
 }
