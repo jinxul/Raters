@@ -6,7 +6,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
 import com.givekesh.raters.R
 
 object BindingAdapters {
@@ -55,6 +54,6 @@ object BindingAdapters {
         val keys = getTempStringArray(view.context)
         val values = getTempTypedArray(view.context)
         val drawableRes = values.getResourceId(keys.indexOf(alpha2), android.R.color.transparent)
-        Glide.with(view.context).load(drawableRes).into(view)
+        view.setImageResource(drawableRes)
     }
 }
