@@ -10,6 +10,7 @@ import com.givekesh.raters.data.mappers.currencies.CurrenciesCacheMapper
 import com.givekesh.raters.data.source.local.CurrenciesDao
 import com.givekesh.raters.utils.DataState
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import java.net.UnknownHostException
 
@@ -34,16 +35,9 @@ class MainRepository constructor(
                 val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
                 emit(DataState.Success(recyclerItems))
             } catch (exception: Exception) {
-                if (exception is UnknownHostException) {
-                    val offlineData = currenciesDao.get()
-                    if (offlineData.isEmpty()) {
-                        emit(DataState.Failed(exception))
-                        return@flow
-                    }
-                    val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
-                    val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
-                    emit(DataState.Success(recyclerItems))
-                } else
+                if (exception is UnknownHostException)
+                    retrieveCurrencies().collect { emit(it) }
+                else
                     emit(DataState.Failed(exception))
             }
         }
@@ -58,17 +52,32 @@ class MainRepository constructor(
             val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
             emit(DataState.Success(recyclerItems))
         } catch (exception: Exception) {
-            if (exception is UnknownHostException) {
-                val offlineData = coinsDao.get()
-                if (offlineData.isEmpty()) {
-                    emit(DataState.Failed(exception))
-                    return@flow
-                }
-                val coins = coinsCacheMapper.mapFromEntityList(offlineData)
-                val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
-                emit(DataState.Success(recyclerItems))
-            } else
+            if (exception is UnknownHostException)
+                retrieveCoins().collect { emit(it) }
+            else
                 emit(DataState.Failed(exception))
         }
+    }
+
+    suspend fun retrieveCurrencies(): Flow<DataState> = flow {
+        val offlineData = currenciesDao.get()
+        if (offlineData.isEmpty()) {
+            emit(DataState.Failed(UnknownHostException()))
+            return@flow
+        }
+        val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
+        val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
+        emit(DataState.Success(recyclerItems))
+    }
+
+    suspend fun retrieveCoins(): Flow<DataState> = flow {
+        val offlineData = coinsDao.get()
+        if (offlineData.isEmpty()) {
+            emit(DataState.Failed(UnknownHostException()))
+            return@flow
+        }
+        val coins = coinsCacheMapper.mapFromEntityList(offlineData)
+        val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
+        emit(DataState.Success(recyclerItems))
     }
 }
