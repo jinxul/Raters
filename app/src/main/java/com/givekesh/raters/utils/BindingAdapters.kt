@@ -53,7 +53,11 @@ object BindingAdapters {
     fun setImageResource(view: ImageView, alpha2: String) {
         val keys = getTempStringArray(view.context)
         val values = getTempTypedArray(view.context)
-        val drawableRes = values.getResourceId(keys.indexOf(alpha2), android.R.color.transparent)
-        view.setImageResource(drawableRes)
+        try {
+            val drawableRes =
+                values.getResourceId(keys.indexOf(alpha2), android.R.color.transparent)
+            view.setImageResource(drawableRes)
+        } catch (e: Exception) {
+        }
     }
 }
