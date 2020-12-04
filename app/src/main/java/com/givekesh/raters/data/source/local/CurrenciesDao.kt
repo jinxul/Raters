@@ -11,6 +11,6 @@ interface CurrenciesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(currenciesCacheEntity: CurrenciesCacheEntity): Long
 
-    @Query("SELECT * FROM currencies")
-    suspend fun get(): List<CurrenciesCacheEntity>
+    @Query("SELECT * FROM currencies WHERE title LIKE '%' || :searchQuery || '%'")
+    suspend fun get(searchQuery: String): List<CurrenciesCacheEntity>
 }

@@ -23,6 +23,8 @@ class CoinsViewModel @ViewModelInject constructor(
     private val _dataState = MutableStateFlow<DataState>(DataState.Idle)
     val dataState: StateFlow<DataState> get() = _dataState
 
+    val searchQuery = MutableStateFlow("")
+
     init {
         handleIntent()
     }
@@ -37,6 +39,10 @@ class CoinsViewModel @ViewModelInject constructor(
                             .launchIn(viewModelScope)
                     MainIntent.RefreshCoins ->
                         mainRepository.fetchCoins(DataState.Refreshing)
+                            .onEach { _dataState.value = it }
+                            .launchIn(viewModelScope)
+                    MainIntent.SearchCoins ->
+                        mainRepository.retrieveCoins(searchQuery.value)
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
                     else -> Unit

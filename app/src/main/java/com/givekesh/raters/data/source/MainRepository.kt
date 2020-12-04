@@ -59,8 +59,8 @@ class MainRepository constructor(
         }
     }
 
-    suspend fun retrieveCurrencies(): Flow<DataState> = flow {
-        val offlineData = currenciesDao.get()
+    suspend fun retrieveCurrencies(searchQuery: String = ""): Flow<DataState> = flow {
+        val offlineData = currenciesDao.get(searchQuery)
         if (offlineData.isEmpty()) {
             emit(DataState.Failed(UnknownHostException()))
             return@flow
@@ -70,8 +70,8 @@ class MainRepository constructor(
         emit(DataState.Success(recyclerItems))
     }
 
-    suspend fun retrieveCoins(): Flow<DataState> = flow {
-        val offlineData = coinsDao.get()
+    suspend fun retrieveCoins(searchQuery: String = ""): Flow<DataState> = flow {
+        val offlineData = coinsDao.get(searchQuery)
         if (offlineData.isEmpty()) {
             emit(DataState.Failed(UnknownHostException()))
             return@flow

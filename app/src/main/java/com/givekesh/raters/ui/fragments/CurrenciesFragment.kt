@@ -2,6 +2,7 @@ package com.givekesh.raters.ui.fragments
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
@@ -11,6 +12,7 @@ import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
+import com.givekesh.raters.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -37,6 +39,13 @@ class CurrenciesFragment : BaseFragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.main_menu, menu)
+
+        val searchItem = menu.findItem(R.id.menu_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.onQueryTextChanged {
+            currenciesViewModel.searchQuery.value = it
+            sendIntent(MainIntent.SearchCurrencies)
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
