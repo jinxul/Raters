@@ -15,7 +15,7 @@ versions.retrofit = '2.9.0'
 versions.room = '2.3.0-alpha03'
 versions.coroutines = '1.4.1'
 versions.firebase_bom = '26.1.0'
-versions.gradle = '7.0.0-alpha02'
+versions.AGP = '7.0.0-alpha02'
 versions.kotlin = '1.4.20'
 versions.google_service = '4.3.4'
 versions.firebase_crashlytics = '2.4.1'
@@ -75,27 +75,23 @@ firebase.crashlytics_gradle = "com.google.firebase:firebase-crashlytics-gradle:$
 firebase.perf_plugin = "com.google.firebase:perf-plugin:$versions.firebase_perf"
 deps.firebase = firebase
 
-deps.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
-
-deps.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
-
-deps.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
-
-deps.swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
+def androidx = [:]
+androidx.core_ktx = "androidx.core:core-ktx:$versions.core_ktx"
+androidx.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
+androidx.constraintlayout = "androidx.constraintlayout:constraintlayout:$versions.constraintlayout"
+androidx.swiperefreshlayout = "androidx.swiperefreshlayout:swiperefreshlayout:$versions.swiperefreshlayout"
+androidx.ext_junit = "androidx.test.ext:junit:$versions.ext_junit"
+androidx.espresso = "androidx.test.espresso:espresso-core:$versions.espresso_core"
+androidx.datastore_preferences = "androidx.datastore:datastore-preferences:$versions.datastore"
+deps.androidx = androidx
 
 deps.junit = "junit:junit:$versions.junit"
 
-deps.ext_junit = "androidx.test.ext:junit:$versions.ext_junit"
-
-deps.espresso = "androidx.test.espresso:espresso-core:$versions.espresso_core"
-
 deps.material = "com.google.android.material:material:$versions.material"
 
-deps.android_gradle = "com.android.tools.build:gradle:$versions.gradle"
+deps.AGP = "com.android.tools.build:gradle:$versions.AGP"
 
 deps.google_service = "com.google.gms:google-services:$versions.google_service"
-
-deps.datastore_preferences = "androidx.datastore:datastore-preferences:$versions.datastore"
 
 ext.deps = deps
 

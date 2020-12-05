@@ -3,7 +3,7 @@ buildscript {
     apply from: 'versions.gradle'
     addRepos(repositories)
     dependencies {
-        classpath deps.android_gradle
+        classpath deps.AGP
         classpath deps.kotlin.plugin
         classpath deps.hilt.android_plugin
         classpath deps.google_service

@@ -44,16 +44,16 @@ android {
 dependencies {
 
     implementation deps.kotlin.stdlib
-    implementation deps.core_ktx
-    implementation deps.appcompat
+    implementation deps.androidx.core_ktx
+    implementation deps.androidx.appcompat
     implementation deps.material
-    implementation deps.constraintlayout
+    implementation deps.androidx.constraintlayout
     implementation deps.navigation.fragment_ktx
     implementation deps.navigation.ui_ktx
-    implementation deps.swiperefreshlayout
+    implementation deps.androidx.swiperefreshlayout
     testImplementation deps.junit
-    androidTestImplementation deps.ext_junit
-    androidTestImplementation deps.espresso
+    androidTestImplementation deps.androidx.ext_junit
+    androidTestImplementation deps.androidx.espresso
 
     implementation deps.hilt.android
     kapt deps.hilt.android_compiler
@@ -76,5 +76,5 @@ dependencies {
     implementation deps.firebase.analytics_ktx
     implementation deps.firebase.perf_ktx
 
-    implementation deps.datastore_preferences
+    implementation deps.androidx.datastore_preferences
 }
