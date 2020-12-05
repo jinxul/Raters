@@ -1,5 +1,6 @@
 package com.givekesh.raters.ui.viewmodels
 
+import androidx.datastore.preferences.core.preferencesKey
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
@@ -21,6 +22,8 @@ class MainActivityViewModel @ViewModelInject constructor(
     val nightModeLive: StateFlow<Int>
         get() = _nightModeLive
 
+    private val nightModeKey = preferencesKey<Int>(Constant.PREFERENCE_NIGHT_MODE_KEY)
+
     init {
         handleNightMode()
     }
@@ -28,15 +31,17 @@ class MainActivityViewModel @ViewModelInject constructor(
     private fun handleNightMode() {
         viewModelScope.launch {
             preferenceRepository.observeKey(
-                Constant.PREFERENCE_NIGHT_MODE_KEY,
+                nightModeKey,
                 Constant.PREFERENCE_NIGHT_MODE_DEFAULT
-            )
-                .onEach { _nightModeLive.value = it }
-                .launchIn(viewModelScope)
+            ).collect {
+                _nightModeLive.value = it
+            }
         }
     }
 
     fun setNightMode(nightMode: Int) {
-        preferenceRepository.setValue(Constant.PREFERENCE_NIGHT_MODE_KEY, nightMode)
+        viewModelScope.launch {
+            preferenceRepository.setValue(nightModeKey, nightMode)
+        }
     }
 }

@@ -1,7 +1,9 @@
 package com.givekesh.raters.di.modules
 
 import android.content.Context
-import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import com.givekesh.raters.data.mappers.RecyclerItemMapper
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
@@ -49,16 +51,18 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences(
-            "default_preferences", Context.MODE_PRIVATE
-        )
+    fun provideDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> {
+        return context.createDataStore("settings")
     }
 
     @ExperimentalCoroutinesApi
     @Singleton
     @Provides
-    fun providePreferenceRepository(sharedPreferences: SharedPreferences): PreferenceRepository {
-        return PreferenceRepository(sharedPreferences)
+    fun providePreferenceRepository(
+        dataStore: DataStore<Preferences>
+    ): PreferenceRepository {
+        return PreferenceRepository(dataStore)
     }
 }
