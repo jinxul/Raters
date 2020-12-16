@@ -5,6 +5,6 @@ sealed class MainIntent {
     object GetCoins : MainIntent()
     object RefreshCurrencies : MainIntent()
     object RefreshCoins : MainIntent()
-    object SearchCurrencies : MainIntent()
-    object SearchCoins : MainIntent()
+    class SearchCurrencies(val searchQuery: String) : MainIntent()
+    class SearchCoins(val searchQuery: String) : MainIntent()
 }
