@@ -42,6 +42,10 @@ class CurrenciesFragment : BaseFragment() {
 
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
+        if (currenciesViewModel.searchQuery != null) {
+            searchView.onActionViewExpanded()
+            searchView.setQuery(currenciesViewModel.searchQuery, false)
+        }
         searchView.onQueryTextChanged {
             sendIntent(MainIntent.SearchCurrencies(it))
         }

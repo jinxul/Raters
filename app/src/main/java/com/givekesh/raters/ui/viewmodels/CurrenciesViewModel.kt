@@ -23,6 +23,8 @@ class CurrenciesViewModel @ViewModelInject constructor(
     private val _dataState = MutableStateFlow<DataState>(DataState.Idle)
     val dataState: StateFlow<DataState> get() = _dataState
 
+    var searchQuery: String? = savedStateHandle.get<String>("searchQuery")
+
     init {
         handleIntent()
     }
@@ -39,11 +41,13 @@ class CurrenciesViewModel @ViewModelInject constructor(
                         mainRepository.fetchCurrencies(DataState.Refreshing)
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
-                    is MainIntent.SearchCurrencies ->
+                    is MainIntent.SearchCurrencies -> {
+                        searchQuery = mainIntent.searchQuery
                         mainRepository
-                            .retrieveCurrencies(mainIntent.searchQuery)
+                            .retrieveCurrencies(searchQuery ?: "")
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
+                    }
                     else -> Unit
                 }
             }

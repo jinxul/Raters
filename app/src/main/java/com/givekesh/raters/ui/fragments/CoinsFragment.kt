@@ -42,6 +42,10 @@ class CoinsFragment : BaseFragment() {
 
         val searchItem = menu.findItem(R.id.menu_search)
         val searchView = searchItem.actionView as SearchView
+        if (coinsViewModel.searchQuery != null) {
+            searchView.onActionViewExpanded()
+            searchView.setQuery(coinsViewModel.searchQuery, false)
+        }
         searchView.onQueryTextChanged {
             sendIntent(MainIntent.SearchCoins(it))
         }
