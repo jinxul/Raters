@@ -27,6 +27,8 @@ class CurrenciesFragment : BaseFragment() {
     override var fragmentBinding: FragmentLayoutBinding? = null
     override var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
+    private lateinit var searchView: SearchView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,10 +43,11 @@ class CurrenciesFragment : BaseFragment() {
         inflater.inflate(R.menu.main_menu, menu)
 
         val searchItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
-        if (currenciesViewModel.searchQuery != null) {
+        searchView = searchItem.actionView as SearchView
+        val searchQuery = currenciesViewModel.searchQuery
+        if (searchQuery != null && searchQuery != "") {
             searchView.onActionViewExpanded()
-            searchView.setQuery(currenciesViewModel.searchQuery, false)
+            searchView.setQuery(searchQuery, false)
         }
         searchView.onQueryTextChanged {
             sendIntent(MainIntent.SearchCurrencies(it))
@@ -80,6 +83,7 @@ class CurrenciesFragment : BaseFragment() {
     private fun setupSwipeRefresh() {
         fragmentBinding?.swipe?.setOnRefreshListener {
             sendIntent(MainIntent.RefreshCurrencies)
+            searchView.onActionViewCollapsed()
         }
     }
 

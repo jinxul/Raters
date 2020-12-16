@@ -27,6 +27,8 @@ class CoinsFragment : BaseFragment() {
     override var fragmentBinding: FragmentLayoutBinding? = null
     override var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
+    private lateinit var searchView: SearchView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,10 +43,11 @@ class CoinsFragment : BaseFragment() {
         inflater.inflate(R.menu.main_menu, menu)
 
         val searchItem = menu.findItem(R.id.menu_search)
-        val searchView = searchItem.actionView as SearchView
-        if (coinsViewModel.searchQuery != null) {
+        searchView = searchItem.actionView as SearchView
+        val searchQuery = coinsViewModel.searchQuery
+        if (searchQuery != null && searchQuery != "") {
             searchView.onActionViewExpanded()
-            searchView.setQuery(coinsViewModel.searchQuery, false)
+            searchView.setQuery(searchQuery, false)
         }
         searchView.onQueryTextChanged {
             sendIntent(MainIntent.SearchCoins(it))
@@ -80,6 +83,7 @@ class CoinsFragment : BaseFragment() {
     private fun setupSwipeRefresh() {
         fragmentBinding?.swipe?.setOnRefreshListener {
             sendIntent(MainIntent.RefreshCoins)
+            searchView.onActionViewCollapsed()
         }
     }
 
