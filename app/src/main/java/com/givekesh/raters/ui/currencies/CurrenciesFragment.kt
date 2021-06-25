@@ -33,6 +33,11 @@ class CurrenciesFragment : Fragment() {
     private lateinit var searchView: SearchView
     private var uiJob: Job? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
