@@ -7,10 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
-import com.givekesh.raters.data.models.RecyclerItemModel
+import com.givekesh.raters.data.models.CurrenciesModel
 import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.main.MainActivity
-import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.givekesh.raters.utils.onQueryTextChanged
@@ -27,7 +26,7 @@ class CurrenciesFragment : Fragment() {
     private var _binding: FragmentLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+    private var adapter = CurrenciesAdapter()
 
     private val currenciesViewModel: CurrenciesViewModel by activityViewModels()
 
@@ -117,7 +116,7 @@ class CurrenciesFragment : Fragment() {
         binding.swipe.isRefreshing = true
     }
 
-    private fun updateData(data: List<RecyclerItemModel>) {
+    private fun updateData(data: List<CurrenciesModel>) {
         binding.apply {
             swipe.visibility = View.VISIBLE
             list.visibility = View.VISIBLE

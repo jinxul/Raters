@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.createDataStore
-import com.givekesh.raters.data.mappers.RecyclerItemMapper
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
 import com.givekesh.raters.data.source.MainRepository
@@ -33,8 +32,7 @@ object RepositoryModule {
         currenciesDao: CurrenciesDao,
         coinsDao: CoinsDao,
         currenciesCacheMapper: CurrenciesCacheMapper,
-        coinsCacheMapper: CoinsCacheMapper,
-        recyclerItemMapper: RecyclerItemMapper
+        coinsCacheMapper: CoinsCacheMapper
     ): MainRepository {
         return MainRepository(
             networkApi,
@@ -43,8 +41,7 @@ object RepositoryModule {
             currenciesDao,
             coinsDao,
             currenciesCacheMapper,
-            coinsCacheMapper,
-            recyclerItemMapper
+            coinsCacheMapper
         )
     }
 

@@ -3,6 +3,7 @@ package com.givekesh.raters.ui.coins
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.givekesh.raters.data.models.CoinsModel
 import com.givekesh.raters.data.source.MainRepository
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
@@ -19,8 +20,8 @@ class CoinsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val channel = Channel<MainIntent>(Channel.UNLIMITED)
-    private val _dataState = MutableStateFlow<DataState>(DataState.Idle)
-    val dataState: StateFlow<DataState> get() = _dataState
+    private val _dataState = MutableStateFlow<DataState<CoinsModel>>(DataState.Idle)
+    val dataState: StateFlow<DataState<CoinsModel>> get() = _dataState
 
     var searchQuery: String? = savedStateHandle.get<String>("searchQuery")
 

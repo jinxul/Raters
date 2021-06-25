@@ -1,12 +1,13 @@
 package com.givekesh.raters.data.source
 
-import com.givekesh.raters.data.mappers.RecyclerItemMapper
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
 import com.givekesh.raters.data.source.remote.NetworkApi
 import com.givekesh.raters.data.mappers.coins.CoinsCacheMapper
 import com.givekesh.raters.data.source.local.CoinsDao
 import com.givekesh.raters.data.mappers.currencies.CurrenciesCacheMapper
+import com.givekesh.raters.data.models.CoinsModel
+import com.givekesh.raters.data.models.CurrenciesModel
 import com.givekesh.raters.data.source.local.CurrenciesDao
 import com.givekesh.raters.utils.DataState
 import kotlinx.coroutines.flow.Flow
@@ -21,10 +22,9 @@ class MainRepository constructor(
     private val currenciesDao: CurrenciesDao,
     private val coinsDao: CoinsDao,
     private val currenciesCacheMapper: CurrenciesCacheMapper,
-    private val coinsCacheMapper: CoinsCacheMapper,
-    private val recyclerItemMapper: RecyclerItemMapper
+    private val coinsCacheMapper: CoinsCacheMapper
 ) {
-    suspend fun fetchCurrencies(state: DataState): Flow<DataState> =
+    suspend fun fetchCurrencies(state: DataState<CurrenciesModel>): Flow<DataState<CurrenciesModel>> =
         flow {
             emit(state)
             try {
@@ -32,8 +32,7 @@ class MainRepository constructor(
                 val currencies = currenciesMapper.mapFromEntityList(retrievedData.data)
                 for (currency in currencies)
                     currenciesDao.insert(currenciesCacheMapper.mapToEntity(currency))
-                val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
-                emit(DataState.Success(recyclerItems))
+                emit(DataState.Success(currencies))
             } catch (exception: Exception) {
                 if (exception is UnknownHostException)
                     retrieveCurrencies().collect { emit(it) }
@@ -42,15 +41,14 @@ class MainRepository constructor(
             }
         }
 
-    suspend fun fetchCoins(state: DataState): Flow<DataState> = flow {
+    suspend fun fetchCoins(state: DataState<CoinsModel>): Flow<DataState<CoinsModel>> = flow {
         emit(state)
         try {
             val retrievedData = networkApi.fetchCoins()
             val coins = coinsMapper.mapFromEntityList(retrievedData.data)
             for (coin in coins)
                 coinsDao.insert(coinsCacheMapper.mapToEntity(coin))
-            val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
-            emit(DataState.Success(recyclerItems))
+            emit(DataState.Success(coins))
         } catch (exception: Exception) {
             if (exception is UnknownHostException)
                 retrieveCoins().collect { emit(it) }
@@ -59,25 +57,24 @@ class MainRepository constructor(
         }
     }
 
-    suspend fun retrieveCurrencies(searchQuery: String = ""): Flow<DataState> = flow {
-        val offlineData = currenciesDao.get(searchQuery)
-        if (offlineData.isEmpty()) {
-            emit(DataState.Failed(UnknownHostException()))
-            return@flow
+    suspend fun retrieveCurrencies(searchQuery: String = ""): Flow<DataState<CurrenciesModel>> =
+        flow {
+            val offlineData = currenciesDao.get(searchQuery)
+            if (offlineData.isEmpty()) {
+                emit(DataState.Failed(UnknownHostException()))
+                return@flow
+            }
+            val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
+            emit(DataState.Success(currencies))
         }
-        val currencies = currenciesCacheMapper.mapFromEntityList(offlineData)
-        val recyclerItems = recyclerItemMapper.mapFromCurrenciesList(currencies)
-        emit(DataState.Success(recyclerItems))
-    }
 
-    suspend fun retrieveCoins(searchQuery: String = ""): Flow<DataState> = flow {
+    suspend fun retrieveCoins(searchQuery: String = ""): Flow<DataState<CoinsModel>> = flow {
         val offlineData = coinsDao.get(searchQuery)
         if (offlineData.isEmpty()) {
             emit(DataState.Failed(UnknownHostException()))
             return@flow
         }
         val coins = coinsCacheMapper.mapFromEntityList(offlineData)
-        val recyclerItems = recyclerItemMapper.mapFromCoinsList(coins)
-        emit(DataState.Success(recyclerItems))
+        emit(DataState.Success(coins))
     }
 }

@@ -1,11 +1,9 @@
 package com.givekesh.raters.utils
 
-import com.givekesh.raters.data.models.RecyclerItemModel
-
-sealed class DataState {
-    object Idle : DataState()
-    object Loading : DataState()
-    object Refreshing : DataState()
-    class Success(val data: List<RecyclerItemModel>) : DataState()
-    class Failed(val exception: Exception) : DataState()
+sealed class DataState<out R> {
+    object Idle : DataState<Nothing>()
+    object Loading : DataState<Nothing>()
+    object Refreshing : DataState<Nothing>()
+    class Success<T>(val data: List<T>) : DataState<T>()
+    class Failed(val exception: Exception) : DataState<Nothing>()
 }

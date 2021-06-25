@@ -7,8 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
-import com.givekesh.raters.data.models.RecyclerItemModel
-import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
+import com.givekesh.raters.data.models.CoinsModel
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +26,7 @@ class CoinsFragment : Fragment() {
     private var _binding: FragmentLayoutBinding? = null
     private val binding get() = _binding!!
 
-    private var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
+    private var adapter = CoinsAdapter()
 
     private val coinsViewModel: CoinsViewModel by activityViewModels()
 
@@ -117,7 +116,7 @@ class CoinsFragment : Fragment() {
         binding.swipe.isRefreshing = true
     }
 
-    private fun updateData(data: List<RecyclerItemModel>) {
+    private fun updateData(data: List<CoinsModel>) {
         binding.apply {
             swipe.visibility = View.VISIBLE
             list.visibility = View.VISIBLE
