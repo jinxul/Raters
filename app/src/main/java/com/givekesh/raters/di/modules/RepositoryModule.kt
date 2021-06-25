@@ -1,9 +1,6 @@
 package com.givekesh.raters.di.modules
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.createDataStore
 import com.givekesh.raters.data.mappers.coins.CoinsMapper
 import com.givekesh.raters.data.mappers.currencies.CurrenciesMapper
 import com.givekesh.raters.data.source.MainRepository
@@ -47,17 +44,9 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideDataStore(
-        @ApplicationContext context: Context
-    ): DataStore<Preferences> {
-        return context.createDataStore("settings")
-    }
-
-    @Singleton
-    @Provides
     fun providePreferenceRepository(
-        dataStore: DataStore<Preferences>
+        @ApplicationContext context: Context
     ): PreferenceRepository {
-        return PreferenceRepository(dataStore)
+        return PreferenceRepository(context)
     }
 }

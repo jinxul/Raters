@@ -1,18 +1,22 @@
 package com.givekesh.raters.data.source
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.*
 
-class PreferenceRepository(val dataStore: DataStore<Preferences>) {
+class PreferenceRepository(val context: Context) {
+
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore("settings")
 
     inline fun <reified T> observeKey(
         key: Preferences.Key<T>,
         default: T
     ): Flow<T> = channelFlow {
-        dataStore.data.collect { preferences ->
-            offer(preferences[key] ?: default)
+        context.dataStore.data.collect { preferences ->
+            trySend(preferences[key] ?: default)
         }
     }
 
@@ -20,7 +24,7 @@ class PreferenceRepository(val dataStore: DataStore<Preferences>) {
         key: Preferences.Key<T>,
         value: T
     ) {
-        dataStore.edit { preferences ->
+        context.dataStore.edit { preferences ->
             preferences[key] = value
         }
     }

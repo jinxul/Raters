@@ -1,6 +1,6 @@
 package com.givekesh.raters.ui.main
 
-import androidx.datastore.preferences.core.preferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.*
 import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.utils.Constant
@@ -20,7 +20,7 @@ class MainViewModel @Inject constructor(
     val nightModeLive: StateFlow<Int>
         get() = _nightModeLive
 
-    private val nightModeKey = preferencesKey<Int>(Constant.PREFERENCE_NIGHT_MODE_KEY)
+    private val nightModeKey = intPreferencesKey(Constant.PREFERENCE_NIGHT_MODE_KEY)
 
     init {
         handleNightMode()
