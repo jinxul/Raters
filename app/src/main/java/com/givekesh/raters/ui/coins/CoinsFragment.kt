@@ -3,27 +3,32 @@ package com.givekesh.raters.ui.coins
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
+import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import dagger.hilt.android.AndroidEntryPoint
 import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.main.MainActivity
-import com.givekesh.raters.ui.BaseFragment
 import com.givekesh.raters.utils.onQueryTextChanged
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 @AndroidEntryPoint
-class CoinsFragment : BaseFragment() {
+class CoinsFragment : Fragment() {
+
+    private var _binding: FragmentLayoutBinding? = null
+    private val binding get() = _binding!!
+
+    private var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     private val coinsViewModel: CoinsViewModel by activityViewModels()
-
-    override var fragmentBinding: FragmentLayoutBinding? = null
-    override var adapter: RecyclerViewAdapter = RecyclerViewAdapter()
 
     private lateinit var searchView: SearchView
 
@@ -32,8 +37,7 @@ class CoinsFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentLayoutBinding.inflate(inflater, container, false)
-        fragmentBinding = binding
+        _binding = FragmentLayoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -68,18 +72,13 @@ class CoinsFragment : BaseFragment() {
         (activity as MainActivity).registerNetworkListener {
             sendIntent(MainIntent.RefreshCoins)
         }
-        fragmentBinding?.refresh?.setOnClickListener {
+        binding.refresh.setOnClickListener {
             sendIntent(MainIntent.GetCoins)
         }
     }
 
-    override fun onDestroyView() {
-        fragmentBinding = null
-        super.onDestroyView()
-    }
-
     private fun setupSwipeRefresh() {
-        fragmentBinding?.swipe?.setOnRefreshListener {
+        binding.swipe.setOnRefreshListener {
             sendIntent(MainIntent.RefreshCoins)
             searchView.onActionViewCollapsed()
         }
@@ -103,5 +102,46 @@ class CoinsFragment : BaseFragment() {
         lifecycleScope.launch {
             coinsViewModel.channel.send(intent)
         }
+    }
+
+    private fun showLoading() {
+        binding.apply {
+            loadingLayout.root.visibility = View.VISIBLE
+            swipe.visibility = View.GONE
+        }
+    }
+
+    private fun showRefreshIndicator() {
+        binding.swipe.isRefreshing = true
+    }
+
+    private fun updateData(data: List<RecyclerItemModel>) {
+        binding.apply {
+            swipe.visibility = View.VISIBLE
+            list.visibility = View.VISIBLE
+            errorLayout.visibility = View.GONE
+            loadingLayout.root.visibility = View.GONE
+            list.adapter = adapter
+            swipe.isRefreshing = false
+        }
+        adapter.updateData(data)
+    }
+
+    private fun showError(exception: Exception) {
+        val errorMessage = (activity as MainActivity).utils.getErrorMessage(exception)
+        FirebaseCrashlytics.getInstance().recordException(exception)
+        binding.apply {
+            swipe.visibility = View.VISIBLE
+            list.visibility = View.GONE
+            loadingLayout.root.visibility = View.GONE
+            errorLayout.visibility = View.VISIBLE
+            listError.text = errorMessage
+            swipe.isRefreshing = false
+        }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }
