@@ -1,21 +1,21 @@
 package com.givekesh.raters.ui.viewmodels
 
 import androidx.datastore.preferences.core.preferencesKey
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.utils.Constant
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class MainActivityViewModel @ViewModelInject constructor(
-    private val preferenceRepository: PreferenceRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val preferenceRepository: PreferenceRepository
+) : ViewModel() {
 
     private val _nightModeLive: MutableStateFlow<Int> =
         MutableStateFlow(Constant.PREFERENCE_NIGHT_MODE_DEFAULT)

@@ -29,11 +29,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         dataBinding true
@@ -43,9 +43,9 @@ android {
 
 dependencies {
 
-    implementation deps.kotlin.stdlib
     implementation deps.androidx.core_ktx
     implementation deps.androidx.appcompat
+    implementation deps.androidx.fragment
     implementation deps.material
     implementation deps.androidx.constraintlayout
     implementation deps.navigation.fragment_ktx
@@ -58,8 +58,7 @@ dependencies {
     implementation deps.hilt.android
     kapt deps.hilt.android_compiler
 
-    implementation deps.hilt.viewModel
-    kapt deps.hilt.compiler
+    implementation deps.androidx.lifecycle
 
     implementation deps.retrofit.runtime
     implementation deps.retrofit.gson
@@ -77,4 +76,7 @@ dependencies {
     implementation deps.firebase.perf_ktx
 
     implementation deps.androidx.datastore_preferences
+}
+kapt {
+    correctErrorTypes true
 }

@@ -1,22 +1,23 @@
 package com.givekesh.raters.ui.viewmodels
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.givekesh.raters.data.source.MainRepository
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class CurrenciesViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CurrenciesViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val mainRepository: MainRepository,
-    @Assisted private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val channel = Channel<MainIntent>(Channel.UNLIMITED)
