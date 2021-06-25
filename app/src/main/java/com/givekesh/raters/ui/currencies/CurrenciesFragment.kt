@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui.fragments
+package com.givekesh.raters.ui.currencies
 
 import android.os.Bundle
 import android.view.*
@@ -7,9 +7,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.givekesh.raters.R
 import com.givekesh.raters.databinding.FragmentLayoutBinding
-import com.givekesh.raters.ui.activities.MainActivity
+import com.givekesh.raters.ui.main.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
-import com.givekesh.raters.ui.viewmodels.CurrenciesViewModel
+import com.givekesh.raters.ui.BaseFragment
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.givekesh.raters.utils.onQueryTextChanged

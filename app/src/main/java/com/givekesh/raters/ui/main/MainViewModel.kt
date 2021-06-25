@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui.viewmodels
+package com.givekesh.raters.ui.main
 
 import androidx.datastore.preferences.core.preferencesKey
 import androidx.lifecycle.*
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val preferenceRepository: PreferenceRepository
 ) : ViewModel() {

@@ -6,27 +6,21 @@
 
     <fragment
         android:id="@+id/navigation_currencies"
-        android:name="com.givekesh.raters.ui.fragments.CurrenciesFragment"
+        android:name="com.givekesh.raters.ui.currencies.CurrenciesFragment"
         android:label="@string/title_currencies"
         tools:layout="@layout/fragment_layout">
         <action
             android:id="@+id/action_currencies_to_coins"
-            app:destination="@id/navigation_coins"
-            app:enterAnim="@anim/fragment_open_enter"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/fragment_open_enter" />
+            app:destination="@id/navigation_coins" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_coins"
-        android:name="com.givekesh.raters.ui.fragments.CoinsFragment"
+        android:name="com.givekesh.raters.ui.coins.CoinsFragment"
         android:label="@string/title_coins"
         tools:layout="@layout/fragment_layout">
         <action
             android:id="@+id/action_coins_to_currencies"
-            app:destination="@id/navigation_currencies"
-            app:exitAnim="@anim/fragment_open_exit"
-            app:launchSingleTop="true"
-            app:popExitAnim="@anim/fragment_open_exit" />
+            app:destination="@id/navigation_currencies" />
     </fragment>
 </navigation>

@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui.viewmodels
+package com.givekesh.raters.ui.currencies
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -15,9 +15,9 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
-class CoinsViewModel @Inject constructor(
+class CurrenciesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val mainRepository: MainRepository
+    private val mainRepository: MainRepository,
 ) : ViewModel() {
 
     val channel = Channel<MainIntent>(Channel.UNLIMITED)
@@ -34,18 +34,18 @@ class CoinsViewModel @Inject constructor(
         viewModelScope.launch {
             channel.consumeAsFlow().collect { mainIntent ->
                 when (mainIntent) {
-                    MainIntent.GetCoins ->
-                        mainRepository.fetchCoins(DataState.Loading)
+                    MainIntent.GetCurrencies ->
+                        mainRepository.fetchCurrencies(DataState.Loading)
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
-                    MainIntent.RefreshCoins ->
-                        mainRepository.fetchCoins(DataState.Refreshing)
+                    MainIntent.RefreshCurrencies ->
+                        mainRepository.fetchCurrencies(DataState.Refreshing)
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
-                    is MainIntent.SearchCoins -> {
+                    is MainIntent.SearchCurrencies -> {
                         searchQuery = mainIntent.searchQuery
                         mainRepository
-                            .retrieveCoins(searchQuery ?: "")
+                            .retrieveCurrencies(searchQuery ?: "")
                             .onEach { _dataState.value = it }
                             .launchIn(viewModelScope)
                     }

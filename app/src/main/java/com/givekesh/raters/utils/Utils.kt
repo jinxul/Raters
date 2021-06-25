@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import com.givekesh.raters.R
-import com.givekesh.raters.ui.activities.MainActivity
+import com.givekesh.raters.ui.main.MainActivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -23,7 +23,6 @@ class Utils(private val activity: FragmentActivity) {
             else -> activity.getString(R.string.unexpected_error)
         }
     }
-
 
     fun openConnectivitySettings() {
         val intent = Intent(Settings.ACTION_WIRELESS_SETTINGS)

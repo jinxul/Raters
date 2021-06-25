@@ -1,11 +1,11 @@
-package com.givekesh.raters.ui.fragments
+package com.givekesh.raters.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.givekesh.raters.data.models.RecyclerItemModel
 import com.givekesh.raters.databinding.FragmentLayoutBinding
-import com.givekesh.raters.ui.activities.MainActivity
+import com.givekesh.raters.ui.main.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.ExperimentalCoroutinesApi

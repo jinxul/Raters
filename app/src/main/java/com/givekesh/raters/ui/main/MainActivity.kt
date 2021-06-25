@@ -1,4 +1,4 @@
-package com.givekesh.raters.ui.activities
+package com.givekesh.raters.ui.main
 
 import android.net.ConnectivityManager
 import android.net.Network
@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.givekesh.raters.R
 import com.givekesh.raters.databinding.ActivityMainBinding
 import com.givekesh.raters.databinding.DialogOfflineBinding
-import com.givekesh.raters.ui.viewmodels.MainActivityViewModel
 import com.givekesh.raters.utils.NetworkListener
 import com.givekesh.raters.utils.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -57,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var utils: Utils
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private var networkListener: NetworkListener? = null
     private var shouldRefresh = false
 
