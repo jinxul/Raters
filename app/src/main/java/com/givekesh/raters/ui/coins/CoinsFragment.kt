@@ -16,6 +16,7 @@ import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.main.MainActivity
 import com.givekesh.raters.utils.onQueryTextChanged
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -31,8 +32,9 @@ class CoinsFragment : Fragment() {
     private val coinsViewModel: CoinsViewModel by activityViewModels()
 
     private lateinit var searchView: SearchView
+    private var uiJob: Job? = null
 
-    override fun onCreateView(
+        override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,7 +87,7 @@ class CoinsFragment : Fragment() {
     }
 
     private fun subscribeObserver() {
-        lifecycleScope.launch {
+        uiJob = lifecycleScope.launch {
             coinsViewModel.dataState.collect { dataState ->
                 when (dataState) {
                     is DataState.Idle -> sendIntent(MainIntent.GetCoins)
@@ -141,7 +143,8 @@ class CoinsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        _binding = null
         super.onDestroyView()
+        _binding = null
+        uiJob?.cancel()
     }
 }
