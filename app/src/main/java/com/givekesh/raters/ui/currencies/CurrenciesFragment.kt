@@ -14,11 +14,9 @@ import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import com.givekesh.raters.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CurrenciesFragment : BaseFragment() {
 

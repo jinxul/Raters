@@ -5,12 +5,10 @@ import androidx.lifecycle.*
 import com.givekesh.raters.data.source.PreferenceRepository
 import com.givekesh.raters.utils.Constant
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class MainViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,

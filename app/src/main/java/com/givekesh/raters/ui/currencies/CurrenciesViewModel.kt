@@ -7,13 +7,11 @@ import com.givekesh.raters.data.source.MainRepository
 import com.givekesh.raters.utils.DataState
 import com.givekesh.raters.utils.MainIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 @HiltViewModel
 class CurrenciesViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,

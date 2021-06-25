@@ -3,10 +3,8 @@ package com.givekesh.raters.data.source
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 
-@ExperimentalCoroutinesApi
 class PreferenceRepository(val dataStore: DataStore<Preferences>) {
 
     inline fun <reified T> observeKey(

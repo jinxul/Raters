@@ -14,11 +14,9 @@ import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.main.MainActivity
 import com.givekesh.raters.ui.BaseFragment
 import com.givekesh.raters.utils.onQueryTextChanged
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CoinsFragment : BaseFragment() {
 

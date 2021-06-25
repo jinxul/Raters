@@ -9,11 +9,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.FragmentActivity
 import com.givekesh.raters.R
 import com.givekesh.raters.ui.main.MainActivity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
-@ExperimentalCoroutinesApi
 class Utils(private val activity: FragmentActivity) {
 
     fun getErrorMessage(exception: Exception): String {

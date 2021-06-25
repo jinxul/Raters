@@ -8,10 +8,8 @@ import com.givekesh.raters.databinding.FragmentLayoutBinding
 import com.givekesh.raters.ui.main.MainActivity
 import com.givekesh.raters.ui.adapters.RecyclerViewAdapter
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.lang.Exception
 
-@ExperimentalCoroutinesApi
 abstract class BaseFragment : Fragment() {
 
     abstract var fragmentBinding: FragmentLayoutBinding?
