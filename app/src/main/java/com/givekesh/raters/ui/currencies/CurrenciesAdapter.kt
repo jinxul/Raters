@@ -3,10 +3,12 @@ package com.givekesh.raters.ui.currencies
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.givekesh.raters.BR
 import com.givekesh.raters.data.models.CurrenciesModel
 import com.givekesh.raters.databinding.ListItemCurrencyBinding
+import com.givekesh.raters.utils.diff.CurrenciesDiffCallBack
 
 class CurrenciesAdapter : RecyclerView.Adapter<CurrenciesViewHolder>() {
     private val items = mutableListOf<CurrenciesModel>()
@@ -31,9 +33,11 @@ class CurrenciesAdapter : RecyclerView.Adapter<CurrenciesViewHolder>() {
     }
 
     fun updateData(items: List<CurrenciesModel>) {
+        val diffCallback = CurrenciesDiffCallBack(this.items, items)
+        val diffResult: DiffUtil.DiffResult = DiffUtil.calculateDiff(diffCallback)
         this.items.clear()
         this.items.addAll(items)
-        notifyItemRangeInserted(0, minOf(0, items.lastIndex))
+        diffResult.dispatchUpdatesTo(this)
     }
 }
 
